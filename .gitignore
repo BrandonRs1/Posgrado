@@ -24,3 +24,6 @@ Thumbs.db
 # Caché
 .vite
 *.local
+.env
+.env.*
+!.env.example
