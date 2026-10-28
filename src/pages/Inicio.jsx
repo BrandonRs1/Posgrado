@@ -1,13 +1,9 @@
-import PaginaVacia from "../components/PaginaVacia.jsx";
-import { useAuth } from "../context/AuthContext.jsx";
-import { etiquetaRol } from "../lib/permisos.js";
+import Credencial from "../components/Credencial.jsx";
 
 export default function Inicio() {
-  const { perfil } = useAuth();
   return (
-    <PaginaVacia
-      titulo={`Hola, ${perfil.nombre}`}
-      descripcion={`Sesión iniciada como ${etiquetaRol(perfil).toLowerCase()}.`}
-    />
+    <section>
+      <Credencial />
+    </section>
   );
 }

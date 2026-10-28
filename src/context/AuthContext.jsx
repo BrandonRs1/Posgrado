@@ -3,12 +3,15 @@ import { supabase } from "../lib/supabase.js";
 
 const AuthContext = createContext(null);
 
+// PostgREST a veces regresa un objeto y a veces una lista de un elemento
+const uno = (x) => (Array.isArray(x) ? x[0] : x);
+
 // Arma el perfil: datos básicos + puesto / roles / estatus según el tipo de usuario.
 // (Cada consulta pasa por los permisos de la BD: solo regresa lo que ese usuario puede ver)
 async function cargarPerfil(authUid) {
   const { data: u, error } = await supabase
     .from("usuarios")
-    .select("id, nombre, apellido_paterno, apellido_materno, correo, tipo")
+    .select("id, nombre, apellido_paterno, apellido_materno, correo, tipo, foto_ruta")
     .eq("auth_uid", authUid)
     .maybeSingle();
   if (error) throw error;
@@ -26,12 +29,26 @@ async function cargarPerfil(authUid) {
     const { data } = await supabase.from("profesor_roles").select("rol").eq("usuario_id", u.id);
     perfil.roles = (data ?? []).map((r) => r.rol);
   } else if (u.tipo === "alumno") {
-    const { data } = await supabase
+    const { data: a } = await supabase
       .from("alumnos")
-      .select("estatus")
+      .select("estatus, numero_aspirante, numero_control, posgrados(nombre)")
       .eq("usuario_id", u.id)
       .maybeSingle();
-    perfil.estatus = data?.estatus ?? null;
+    perfil.estatus = a?.estatus ?? null;
+    perfil.numeroAspirante = a?.numero_aspirante ?? null;
+    perfil.numeroControl = a?.numero_control ?? null;
+    perfil.posgrado = uno(a?.posgrados)?.nombre ?? null;
+
+    // Calificación del aspirante: la final del propedéutico (existe cuando se genera el acta)
+    const { data: inscripciones } = await supabase
+      .from("inscripciones_propedeutico")
+      .select("calificacion_final, cursos_propedeutico(fecha_fin)")
+      .eq("alumno_id", u.id)
+      .not("calificacion_final", "is", null);
+    const masReciente = [...(inscripciones ?? [])].sort((x, y) =>
+      (uno(y.cursos_propedeutico)?.fecha_fin ?? "").localeCompare(uno(x.cursos_propedeutico)?.fecha_fin ?? "")
+    )[0];
+    perfil.calificacionAspirante = masReciente?.calificacion_final ?? null;
   }
   return perfil;
 }
@@ -84,9 +101,15 @@ export function AuthProvider({ children }) {
 
   const cerrarSesion = () => supabase.auth.signOut();
 
+  // Vuelve a leer el perfil sin mostrar "Cargando…" (ej. después de cambiar la foto)
+  const refrescarPerfil = async () => {
+    if (!userId) return;
+    setPerfil(await cargarPerfil(userId));
+  };
+
   return (
     <AuthContext.Provider
-      value={{ sesion, perfil, cargando, errorPerfil, iniciarSesion, cerrarSesion }}
+      value={{ sesion, perfil, cargando, errorPerfil, iniciarSesion, cerrarSesion, refrescarPerfil }}
     >
       {children}
     </AuthContext.Provider>
