@@ -1,5 +1,13 @@
 import PaginaVacia from "../components/PaginaVacia.jsx";
+import { useAuth } from "../context/AuthContext.jsx";
+import { etiquetaRol } from "../lib/permisos.js";
 
 export default function Inicio() {
-  return <PaginaVacia titulo="Inicio" descripcion="Resumen general de la evaluación de posgrados." />;
+  const { perfil } = useAuth();
+  return (
+    <PaginaVacia
+      titulo={`Hola, ${perfil.nombre}`}
+      descripcion={`Sesión iniciada como ${etiquetaRol(perfil).toLowerCase()}.`}
+    />
+  );
 }

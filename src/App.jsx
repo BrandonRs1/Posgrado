@@ -1,54 +1,51 @@
-import { useState } from "react";
-import { Routes, Route } from "react-router-dom";
-import Sidebar from "./components/Sidebar.jsx";
-import Inicio from "./pages/Inicio.jsx";
-import Programas from "./pages/Programas.jsx";
-import Evaluaciones from "./pages/Evaluaciones.jsx";
-import Criterios from "./pages/Criterios.jsx";
-import Reportes from "./pages/Reportes.jsx";
-import Configuracion from "./pages/Configuracion.jsx";
+import "./lib/tema.js"; // aplica modo claro/oscuro antes de pintar
+import { AuthProvider, useAuth } from "./context/AuthContext.jsx";
+import Layout from "./components/Layout.jsx";
+import Login from "./pages/Login.jsx";
 
-const esEscritorio = () => window.innerWidth >= 900;
+function Pantalla({ titulo, texto, children }) {
+  return (
+    <div className="login">
+      <div className="tarjeta-simple">
+        {titulo && <h1 className="pagina__titulo">{titulo}</h1>}
+        {texto && <p className="pagina__desc">{texto}</p>}
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function Contenido() {
+  const { sesion, perfil, cargando, errorPerfil, cerrarSesion } = useAuth();
+
+  if (cargando) return <Pantalla texto="Cargando…" />;
+  if (!sesion) return <Login />;
+
+  if (errorPerfil || !perfil) {
+    return (
+      <Pantalla
+        titulo="No pudimos abrir tu cuenta"
+        texto={
+          errorPerfil
+            ? "Hubo un problema al cargar tu perfil. Intenta de nuevo en un momento."
+            : "Tu cuenta todavía no tiene un perfil asignado. Pide al coordinador que la active."
+        }
+      >
+        <button type="button" className="boton-principal" onClick={cerrarSesion}>
+          Cerrar sesión
+        </button>
+      </Pantalla>
+    );
+  }
+
+  return <Layout />;
+}
 
 export default function App() {
-  // En escritorio arranca abierto, en celular cerrado
-  const [abierto, setAbierto] = useState(esEscritorio);
-
-  const alNavegar = () => {
-    if (!esEscritorio()) setAbierto(false);
-  };
-
   return (
-    <div className={`layout ${abierto ? "layout--abierto" : ""}`}>
+    <AuthProvider>
       <div className="fondo" aria-hidden="true" />
-
-      <header className="topbar">
-        <button
-          className={`hamburguesa ${abierto ? "hamburguesa--activa" : ""}`}
-          onClick={() => setAbierto(!abierto)}
-          aria-label={abierto ? "Ocultar menú" : "Mostrar menú"}
-          aria-expanded={abierto}
-        >
-          <span />
-          <span />
-          <span />
-        </button>
-        <span className="topbar__titulo">Evaluación de Posgrados</span>
-      </header>
-
-      <Sidebar abierto={abierto} onNavegar={alNavegar} />
-      {abierto && <div className="velo" onClick={() => setAbierto(false)} />}
-
-      <main className="pagina">
-        <Routes>
-          <Route path="/" element={<Inicio />} />
-          <Route path="/programas" element={<Programas />} />
-          <Route path="/evaluaciones" element={<Evaluaciones />} />
-          <Route path="/criterios" element={<Criterios />} />
-          <Route path="/reportes" element={<Reportes />} />
-          <Route path="/configuracion" element={<Configuracion />} />
-        </Routes>
-      </main>
-    </div>
+      <Contenido />
+    </AuthProvider>
   );
 }

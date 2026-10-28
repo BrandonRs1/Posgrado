@@ -1,27 +1,16 @@
 import { NavLink } from "react-router-dom";
-import {
-  IconInicio,
-  IconProgramas,
-  IconEvaluaciones,
-  IconCriterios,
-  IconReportes,
-  IconConfiguracion,
-} from "./Iconos.jsx";
-
-export const secciones = [
-  { ruta: "/", nombre: "Inicio", icono: IconInicio },
-  { ruta: "/programas", nombre: "Programas", icono: IconProgramas },
-  { ruta: "/evaluaciones", nombre: "Evaluaciones", icono: IconEvaluaciones },
-  { ruta: "/criterios", nombre: "Criterios", icono: IconCriterios },
-  { ruta: "/reportes", nombre: "Reportes", icono: IconReportes },
-  { ruta: "/configuracion", nombre: "Configuración", icono: IconConfiguracion },
-];
+import { useAuth } from "../context/AuthContext.jsx";
+import { seccionesPermitidas } from "../config/secciones.js";
+import { etiquetaRol } from "../lib/permisos.js";
+import { IconSalir } from "./Iconos.jsx";
 
 export default function Sidebar({ abierto, onNavegar }) {
+  const { perfil, cerrarSesion } = useAuth();
+
   return (
     <aside className={`sidebar ${abierto ? "sidebar--abierto" : ""}`}>
       <nav className="sidebar__nav">
-        {secciones.map(({ ruta, nombre, icono: Icono }) => (
+        {seccionesPermitidas(perfil).map(({ ruta, nombre, icono: Icono }) => (
           <NavLink
             key={ruta}
             to={ruta}
@@ -36,6 +25,17 @@ export default function Sidebar({ abierto, onNavegar }) {
           </NavLink>
         ))}
       </nav>
+
+      <div className="sidebar__usuario">
+        <div className="sidebar__nombre">
+          {perfil.nombre} {perfil.apellido_paterno}
+        </div>
+        <div className="sidebar__rol">{etiquetaRol(perfil)}</div>
+        <button type="button" className="sidebar__salir" onClick={cerrarSesion}>
+          <IconSalir />
+          <span>Cerrar sesión</span>
+        </button>
+      </div>
     </aside>
   );
 }
