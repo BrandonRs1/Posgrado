@@ -1,4 +1,5 @@
 import "./lib/tema.js"; // aplica modo claro/oscuro antes de pintar
+import { Toaster } from "sonner";
 import { AuthProvider, useAuth } from "./context/AuthContext.jsx";
 import Layout from "./components/Layout.jsx";
 import Login from "./pages/Login.jsx";
@@ -44,6 +45,7 @@ function Contenido() {
 export default function App() {
   return (
     <AuthProvider>
+      <Toaster position="top-right" richColors closeButton />
       <div className="fondo" aria-hidden="true" />
       <Contenido />
     </AuthProvider>

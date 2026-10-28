@@ -1,36 +1,74 @@
+/* =====================================================================
+   CREDENCIAL DIGITAL INSTITUCIONAL - ESTILO EJECUTIVO PROFESIONAL
+   Paleta: Blanco dominante con acentos en Azul Rey
+   ===================================================================== */
+
 .credencial {
-  width: min(420px, 100%);
-  border-radius: 24px;
+  position: relative;
+  width: min(440px, 100%);
+  border-radius: var(--radio-xl);
   overflow: hidden;
-  background: var(--vidrio);
-  backdrop-filter: blur(22px) saturate(180%);
-  -webkit-backdrop-filter: blur(22px) saturate(180%);
-  border: 1px solid var(--vidrio-borde);
-  box-shadow: var(--vidrio-sombra);
+  background: var(--fondo-tarjeta);
+  border: 1px solid var(--borde);
+  box-shadow: var(--sombra-md);
+  transition: transform var(--transicion-media), box-shadow var(--transicion-media);
 }
 
+.credencial:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--sombra-lg);
+}
+
+/* Banda superior institucional en Azul Rey */
 .credencial__banda {
-  padding: 10px 20px;
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  padding: 18px 22px;
+  background: linear-gradient(135deg, var(--azul-institucional) 0%, var(--azul-rey) 65%, var(--azul-electrico) 100%);
   color: #ffffff;
-  background: linear-gradient(90deg, var(--acento), var(--acento-claro));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
 
+.credencial__institucion {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.credencial__tipo-credencial {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 3px 10px;
+  border-radius: var(--radio-pildora);
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(4px);
+}
+
+/* Cuerpo de la tarjeta */
 .credencial__cuerpo {
   display: flex;
-  align-items: flex-start;
-  gap: 18px;
-  padding: 20px;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px;
 }
 
+@media (min-width: 440px) {
+  .credencial__cuerpo {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+/* Foto y avatar del usuario */
 .credencial__foto {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
   flex-shrink: 0;
 }
 
@@ -42,59 +80,269 @@
   padding: 0;
   overflow: hidden;
   border-radius: 50%;
-  border: 3px solid var(--vidrio-borde);
-  font: inherit;
-  font-size: 1.75rem;
-  font-weight: 600;
+  border: 3px solid var(--blanco);
+  font-family: var(--fuente);
+  font-size: 1.85rem;
+  font-weight: 700;
   color: #ffffff;
-  background: linear-gradient(160deg, var(--acento-claro), var(--acento));
-  box-shadow: 0 4px 14px rgba(47, 111, 224, 0.35);
+  background: linear-gradient(135deg, var(--azul-institucional) 0%, var(--azul-rey) 100%);
+  box-shadow: 0 0 0 2px var(--azul-cielo), var(--sombra-sm);
   cursor: pointer;
+  transition: transform var(--transicion-rapida), box-shadow var(--transicion-rapida);
 }
-.credencial__avatar img { width: 100%; height: 100%; object-fit: cover; }
-.credencial__avatar:disabled { opacity: 0.7; cursor: default; }
 
+.credencial__avatar:hover:not(:disabled) {
+  transform: scale(1.04);
+  box-shadow: 0 0 0 3px var(--azul-electrico), var(--sombra-azul-sm);
+}
+
+.credencial__avatar:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.credencial__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.credencial__avatar:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+/* Botón de cambio de fotografía */
 .credencial__cambiar {
-  padding: 2px 8px;
-  border: 0;
-  border-radius: 8px;
-  font: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border: 1px solid var(--borde-azul);
+  border-radius: var(--radio-sm);
+  font-family: var(--fuente);
   font-size: 0.78rem;
-  color: var(--acento-linea);
-  background: transparent;
+  font-weight: 600;
+  color: var(--azul-rey);
+  background: var(--azul-subtle);
   cursor: pointer;
+  transition: all var(--transicion-rapida);
 }
-.credencial__cambiar:hover { background: var(--hover); }
-.credencial__avatar:focus-visible,
-.credencial__cambiar:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
 
-.credencial__datos { min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+.credencial__cambiar:hover:not(:disabled) {
+  color: #ffffff;
+  background: var(--azul-rey);
+  border-color: var(--azul-rey);
+  transform: translateY(-1px);
+  box-shadow: var(--sombra-azul-sm);
+}
+
+.credencial__cambiar:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.credencial__avatar:focus-visible,
+.credencial__cambiar:focus-visible {
+  outline: 2px solid var(--azul-rey);
+  outline-offset: 2px;
+}
+
+/* Datos de la persona */
+.credencial__datos {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 
 .credencial__nombre {
-  font-size: 1.15rem;
-  font-weight: 600;
-  line-height: 1.25;
-  color: var(--titulo);
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--texto-titulos);
   overflow-wrap: anywhere;
 }
 
+/* Etiqueta ejecutiva de rol / estatus */
 .credencial__rol {
   align-self: flex-start;
-  padding: 2px 10px;
-  border-radius: 999px;
-  font-size: 0.78rem;
-  color: var(--acento-linea);
-  background: var(--boton-vidrio);
-  border: 1px solid var(--vidrio-borde);
+  padding: 4px 12px;
+  border-radius: var(--radio-pildora);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--azul-rey);
+  background: var(--azul-subtle);
+  border: 1px solid var(--borde-azul);
+  display: inline-block;
 }
 
-.credencial__filas { display: flex; flex-direction: column; gap: 8px; }
+/* Lista de datos escolares */
+.credencial__filas {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.credencial__fila {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 9px 12px;
+  background: var(--azul-glaciar);
+  border: 1px solid var(--borde-suave);
+  border-radius: var(--radio-md);
+  transition: border-color var(--transicion-rapida);
+}
+
+[data-tema="oscuro"] .credencial__fila {
+  background: var(--fondo-elevado);
+  border-color: var(--borde);
+}
+
+.credencial__fila:hover {
+  border-color: var(--borde-azul);
+}
+
 .credencial__fila dt {
   font-size: 0.7rem;
-  letter-spacing: 0.06em;
+  font-weight: 600;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--texto-suave);
 }
-.credencial__fila dd { font-weight: 500; overflow-wrap: anywhere; }
 
-.credencial__error { padding: 0 20px 16px; }
+.credencial__fila dd {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--texto-titulos);
+  overflow-wrap: anywhere;
+}
+
+.credencial__error {
+  margin: 0 24px 20px;
+}
+
+
+/* ========== Mejoras de Autenticación y Credencial Ejecutiva ========== */
+.credencial__institucion-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.credencial__avatar-container {
+  position: relative;
+  display: inline-block;
+}
+
+.credencial__foto-badge {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--azul-rey);
+  color: #ffffff;
+  border: 2px solid var(--fondo-tarjeta);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: var(--sombra-sm);
+  transition: transform var(--transicion-rapida), background var(--transicion-rapida);
+}
+
+.credencial__foto-badge:hover {
+  transform: scale(1.12);
+  background: var(--azul-electrico);
+}
+
+.credencial__identidad-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.credencial__rol-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  align-self: flex-start;
+  padding: 3px 10px;
+  border-radius: var(--radio-pildora);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: var(--azul-subtle);
+  color: var(--azul-rey);
+  border: 1px solid var(--borde-azul);
+}
+
+[data-tema="oscuro"] .credencial__rol-chip {
+  background: rgba(37, 99, 235, 0.15);
+  color: var(--azul-cielo);
+  border-color: rgba(96, 165, 250, 0.3);
+}
+
+.credencial__pie {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  border-top: 1px dashed var(--borde);
+  background: var(--fondo-muted);
+}
+
+.credencial__qr-block {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.credencial__qr-icon {
+  color: var(--azul-institucional);
+}
+
+[data-tema="oscuro"] .credencial__qr-icon {
+  color: var(--azul-cielo);
+}
+
+.credencial__seguridad-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.credencial__folio {
+  font-family: monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--texto-titulos);
+  letter-spacing: 0.05em;
+}
+
+.credencial__vigencia {
+  font-size: 0.68rem;
+  color: var(--texto-suave);
+}
+
+.credencial__holograma {
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 50%, #ddd6fe 100%);
+  color: #3730a3;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  box-shadow: inset 0 0 4px rgba(255, 255, 255, 0.8);
+}
+
+[data-tema="oscuro"] .credencial__holograma {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #2e1065 100%);
+  color: #c7d2fe;
+  border-color: rgba(165, 180, 252, 0.3);
+}
