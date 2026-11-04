@@ -2131,3 +2131,196 @@ h1, h2, h3, h4, .pagina__titulo, .topbar__titulo {
   line-height: 1.4;
   margin-top: 2px;
 }
+
+
+/* =====================================================================
+   RECUADROS INTERACTIVOS DE COMUNICACIÓN (BUZÓN Y ANUNCIOS EN OTRA PESTAÑA)
+   ===================================================================== */
+.recuadros-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.recuadro-modulo {
+  background: var(--fondo-tarjeta);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-xl);
+  padding: 24px;
+  box-shadow: var(--sombra-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  cursor: pointer;
+  transition: transform var(--transicion-rapida), box-shadow var(--transicion-rapida), border-color var(--transicion-rapida);
+  position: relative;
+  outline: none;
+}
+
+.recuadro-modulo:hover,
+.recuadro-modulo:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: var(--sombra-md);
+  border-color: var(--borde-azul);
+}
+
+.recuadro-modulo__cabecera {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.recuadro-modulo__icono-contenedor {
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radio-md);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.recuadro-modulo__icono-contenedor--azul {
+  background: var(--azul-subtle);
+  color: var(--azul-rey);
+  border: 1px solid var(--borde-azul);
+}
+
+.recuadro-modulo__icono-contenedor--ambar {
+  background: rgba(245, 158, 11, 0.12);
+  color: #d97706;
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+[data-tema="oscuro"] .recuadro-modulo__icono-contenedor--azul {
+  background: rgba(37, 99, 235, 0.18);
+  color: var(--azul-cielo);
+  border-color: rgba(96, 165, 250, 0.3);
+}
+
+[data-tema="oscuro"] .recuadro-modulo__icono-contenedor--ambar {
+  background: rgba(245, 158, 11, 0.18);
+  color: #fbbf24;
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+.recuadro-modulo__titulos {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.recuadro-modulo__categoria {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--texto-suave);
+}
+
+.recuadro-modulo__titulo {
+  font-size: 1.18rem;
+  font-weight: 800;
+  color: var(--texto-titulos);
+  line-height: 1.2;
+}
+
+.recuadro-modulo__badge {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--radio-pildora);
+  font-size: 0.74rem;
+  font-weight: 700;
+  background: rgba(16, 185, 129, 0.1);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.recuadro-modulo__badge--urgente {
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+  border-color: rgba(239, 68, 68, 0.25);
+}
+
+[data-tema="oscuro"] .recuadro-modulo__badge {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+}
+
+[data-tema="oscuro"] .recuadro-modulo__badge--urgente {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+}
+
+.recuadro-modulo__badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+}
+
+.recuadro-modulo__badge-dot--urgente {
+  background: #ef4444;
+}
+
+.recuadro-modulo__desc {
+  font-size: 0.88rem;
+  color: var(--texto-cuerpo);
+  line-height: 1.5;
+}
+
+.recuadro-modulo__snippet {
+  padding: 12px 14px;
+  border-radius: var(--radio-md);
+  background: var(--fondo-muted);
+  border: 1px solid var(--borde-suave);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.recuadro-modulo__snippet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.75rem;
+}
+
+.recuadro-modulo__snippet-autor {
+  font-weight: 700;
+  color: var(--azul-rey);
+}
+
+[data-tema="oscuro"] .recuadro-modulo__snippet-autor {
+  color: var(--azul-cielo);
+}
+
+.recuadro-modulo__snippet-fecha {
+  color: var(--texto-muted);
+}
+
+.recuadro-modulo__snippet-texto {
+  font-size: 0.82rem;
+  color: var(--texto-suave);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recuadro-modulo__pie {
+  margin-top: 4px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.recuadro-modulo__boton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  font-size: 0.86rem;
+  padding: 9px 18px;
+  border-radius: var(--radio-md);
+}

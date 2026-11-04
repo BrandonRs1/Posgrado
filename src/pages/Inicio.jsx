@@ -1,7 +1,4 @@
-import { useState } from "react";
 import Credencial from "../components/Credencial.jsx";
-import Buzon from "../components/Buzon.jsx";
-import Anuncios from "../components/Anuncios.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import { etiquetaRol } from "../lib/permisos.js";
 import { IconBuzon, IconAnuncio } from "../components/Iconos.jsx";
@@ -10,8 +7,11 @@ import {
   CreditCard,
   Bell,
   CheckCircle2,
-  Sparkles,
   CalendarDays,
+  ExternalLink,
+  Inbox,
+  Megaphone,
+  ArrowUpRight,
 } from "lucide-react";
 
 function obtenerSaludo() {
@@ -32,11 +32,14 @@ function obtenerFechaActual() {
 
 export default function Inicio() {
   const { perfil } = useAuth();
-  const [tabActiva, setTabActiva] = useState("ambos"); // "ambos", "buzon", "anuncios"
 
   const saludo = obtenerSaludo();
   const fechaHoy = obtenerFechaActual();
   const fechaCapitalizada = fechaHoy.charAt(0).toUpperCase() + fechaHoy.slice(1);
+
+  const abrirEnOtraPestana = (ruta) => {
+    window.open(ruta, "_blank", "noopener,noreferrer");
+  };
 
   return (
     <section className="inicio-seccion seccion-fade">
@@ -119,7 +122,7 @@ export default function Inicio() {
         </div>
       </div>
 
-      {/* Grid Principal: Credencial + Actividad */}
+      {/* Grid Principal: Credencial + Recuadros de Comunicación */}
       <div className="inicio-grid">
         {/* Columna Izquierda: Credencial Digital */}
         <div className="inicio-grid__col-credencial">
@@ -130,46 +133,129 @@ export default function Inicio() {
           <Credencial />
         </div>
 
-        {/* Columna Derecha: Buzón de Mensajes y Tablón de Anuncios */}
+        {/* Columna Derecha: Recuadros de Buzón y Avisos (abren en otra pestaña) */}
         <div className="inicio-grid__col-actividad">
-          {/* Selector de módulos estilo Segmented Control */}
-          <div className="inicio-tabs-wrapper">
-            <div className="inicio-tabs" role="tablist" aria-label="Secciones de actividad">
-              <button
-                type="button"
-                role="tab"
-                aria-selected={tabActiva === "ambos"}
-                className={`inicio-tab ${tabActiva === "ambos" ? "inicio-tab--activo" : ""}`}
-                onClick={() => setTabActiva("ambos")}
-              >
-                <span>Resumen completo</span>
-              </button>
-              <button
-                type="button"
-                role="tab"
-                aria-selected={tabActiva === "buzon"}
-                className={`inicio-tab ${tabActiva === "buzon" ? "inicio-tab--activo" : ""}`}
-                onClick={() => setTabActiva("buzon")}
-              >
-                <IconBuzon />
-                <span>Buzón institucional</span>
-              </button>
-              <button
-                type="button"
-                role="tab"
-                aria-selected={tabActiva === "anuncios"}
-                className={`inicio-tab ${tabActiva === "anuncios" ? "inicio-tab--activo" : ""}`}
-                onClick={() => setTabActiva("anuncios")}
-              >
-                <IconAnuncio />
-                <span>Avisos oficiales</span>
-              </button>
-            </div>
+          <div className="seccion-cabecera-bloque">
+            <h2 className="seccion-cabecera-bloque__titulo">Comunicaciones y Avisos</h2>
+            <span className="seccion-cabecera-bloque__sub">
+              Módulos oficiales (selecciona cualquier recuadro para abrirlo en otra pestaña)
+            </span>
           </div>
 
-          <div className="inicio-modulos">
-            {(tabActiva === "ambos" || tabActiva === "buzon") && <Buzon />}
-            {(tabActiva === "ambos" || tabActiva === "anuncios") && <Anuncios />}
+          <div className="recuadros-grid">
+            {/* Recuadro 1: Buzón de Mensajes */}
+            <article
+              className="recuadro-modulo"
+              onClick={() => abrirEnOtraPestana("/buzon")}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  abrirEnOtraPestana("/buzon");
+                }
+              }}
+              title="Abrir Buzón de Mensajes en otra pestaña"
+            >
+              <div className="recuadro-modulo__cabecera">
+                <div className="recuadro-modulo__icono-contenedor recuadro-modulo__icono-contenedor--azul">
+                  <IconBuzon />
+                </div>
+                <div className="recuadro-modulo__titulos">
+                  <span className="recuadro-modulo__categoria">Mensajería Académica</span>
+                  <h3 className="recuadro-modulo__titulo">Buzón de Mensajes</h3>
+                </div>
+                <div className="recuadro-modulo__badge">
+                  <span className="recuadro-modulo__badge-dot" />
+                  <span>Activo</span>
+                </div>
+              </div>
+
+              <p className="recuadro-modulo__desc">
+                Consulta los mensajes directos del comité de posgrados, avisos de tus profesores y seguimiento a solicitudes.
+              </p>
+
+              {/* Vista previa miniatura del último mensaje */}
+              <div className="recuadro-modulo__snippet">
+                <div className="recuadro-modulo__snippet-header">
+                  <span className="recuadro-modulo__snippet-autor">Coordinación de Posgrados</span>
+                  <span className="recuadro-modulo__snippet-fecha">Reciente</span>
+                </div>
+                <p className="recuadro-modulo__snippet-texto">
+                  Bienvenido al Sistema de Evaluación y Seguimiento de Posgrados.
+                </p>
+              </div>
+
+              <div className="recuadro-modulo__pie">
+                <a
+                  href="/buzon"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="boton-principal recuadro-modulo__boton"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <span>Abrir en otra pestaña</span>
+                  <ExternalLink size={15} />
+                </a>
+              </div>
+            </article>
+
+            {/* Recuadro 2: Tablón de Anuncios Oficiales */}
+            <article
+              className="recuadro-modulo"
+              onClick={() => abrirEnOtraPestana("/anuncios")}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  abrirEnOtraPestana("/anuncios");
+                }
+              }}
+              title="Abrir Tablón de Anuncios en otra pestaña"
+            >
+              <div className="recuadro-modulo__cabecera">
+                <div className="recuadro-modulo__icono-contenedor recuadro-modulo__icono-contenedor--ambar">
+                  <IconAnuncio />
+                </div>
+                <div className="recuadro-modulo__titulos">
+                  <span className="recuadro-modulo__categoria">Tablón Oficial</span>
+                  <h3 className="recuadro-modulo__titulo">Avisos y Convocatorias</h3>
+                </div>
+                <div className="recuadro-modulo__badge recuadro-modulo__badge--urgente">
+                  <span className="recuadro-modulo__badge-dot recuadro-modulo__badge-dot--urgente" />
+                  <span>Oficial</span>
+                </div>
+              </div>
+
+              <p className="recuadro-modulo__desc">
+                Convocatorias de becas de investigación, fechas de exámenes, entrega de documentación y circulares de servicios escolares.
+              </p>
+
+              {/* Vista previa miniatura del aviso oficial */}
+              <div className="recuadro-modulo__snippet">
+                <div className="recuadro-modulo__snippet-header">
+                  <span className="recuadro-modulo__snippet-autor">Servicios Escolares</span>
+                  <span className="recuadro-modulo__snippet-fecha">Vigente</span>
+                </div>
+                <p className="recuadro-modulo__snippet-texto">
+                  Publicación del Calendario Oficial de Evaluaciones y Recepción Física.
+                </p>
+              </div>
+
+              <div className="recuadro-modulo__pie">
+                <a
+                  href="/anuncios"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="boton-principal recuadro-modulo__boton"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <span>Abrir en otra pestaña</span>
+                  <ExternalLink size={15} />
+                </a>
+              </div>
+            </article>
           </div>
         </div>
       </div>

@@ -4,7 +4,9 @@ import Sidebar from "./Sidebar.jsx";
 import BotonTema from "./BotonTema.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import { seccionesPermitidas, secciones } from "../config/secciones.js";
-import { GraduationCap, Sparkles, Calendar } from "lucide-react";
+import { GraduationCap, Calendar } from "lucide-react";
+import BuzonPage from "../pages/BuzonPage.jsx";
+import AnunciosPage from "../pages/AnunciosPage.jsx";
 
 const esEscritorio = () => window.innerWidth >= 900;
 
@@ -17,9 +19,13 @@ export default function Layout() {
     if (!esEscritorio()) setAbierto(false);
   };
 
-  const seccionActual = secciones.find((s) => s.ruta === location.pathname) || {
-    nombre: "Portal",
-  };
+  const seccionActual =
+    secciones.find((s) => s.ruta === location.pathname) ||
+    (location.pathname === "/buzon"
+      ? { nombre: "Buzón de Mensajes" }
+      : location.pathname === "/anuncios"
+      ? { nombre: "Avisos y Convocatorias" }
+      : { nombre: "Portal" });
 
   const iniciales = (
     (perfil?.nombre?.[0] ?? "") + (perfil?.apellido_paterno?.[0] ?? "")
@@ -79,6 +85,8 @@ export default function Layout() {
           {seccionesPermitidas(perfil).map(({ ruta, elemento: Pagina }) => (
             <Route key={ruta} path={ruta} element={<Pagina />} />
           ))}
+          <Route path="/buzon" element={<BuzonPage />} />
+          <Route path="/anuncios" element={<AnunciosPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
