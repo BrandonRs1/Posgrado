@@ -2324,3 +2324,960 @@ h1, h2, h3, h4, .pagina__titulo, .topbar__titulo {
   padding: 9px 18px;
   border-radius: var(--radio-md);
 }
+
+
+/* =====================================================================
+   ESTILOS PREMIUM DE MÓDULOS INSTITUCIONALES (TASTE-SKILL 2.5 DIRECTIVES)
+   Anti-slop, tipografía disciplinada, micro-interacciones táctiles y alto contraste
+   ===================================================================== */
+
+.text-verde { color: #059669 !important; }
+.text-ambar { color: #d97706 !important; }
+.text-azul { color: var(--azul-rey) !important; }
+
+[data-tema="oscuro"] .text-verde { color: #34d399 !important; }
+[data-tema="oscuro"] .text-ambar { color: #fbbf24 !important; }
+[data-tema="oscuro"] .text-azul { color: var(--azul-cielo) !important; }
+
+/* ---------- 1. Catálogo de Programas de Posgrado ---------- */
+.programas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.programa-card {
+  background: var(--fondo-tarjeta);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-xl);
+  padding: 24px;
+  box-shadow: var(--sombra-xs);
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transicion-rapida), box-shadow var(--transicion-rapida), border-color var(--transicion-rapida);
+}
+
+.programa-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--sombra-md);
+  border-color: var(--borde-azul);
+}
+
+.programa-card__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.programa-card__icono-box {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radio-md);
+  background: linear-gradient(135deg, var(--azul-institucional) 0%, var(--azul-rey) 100%);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  box-shadow: var(--sombra-azul-sm);
+}
+
+.programa-card__identidad {
+  display: flex;
+  flex-direction: column;
+}
+
+.programa-card__codigo {
+  font-family: monospace;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--azul-rey);
+  letter-spacing: 0.05em;
+}
+
+[data-tema="oscuro"] .programa-card__codigo {
+  color: var(--azul-cielo);
+}
+
+.programa-card__area {
+  font-size: 0.74rem;
+  color: var(--texto-suave);
+}
+
+.programa-badge {
+  margin-left: auto;
+  padding: 4px 10px;
+  border-radius: var(--radio-pildora);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.programa-badge--verde {
+  background: rgba(16, 185, 129, 0.1);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.programa-badge--ambar {
+  background: rgba(245, 158, 11, 0.1);
+  color: #d97706;
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.programa-badge--azul {
+  background: var(--azul-subtle);
+  color: var(--azul-rey);
+  border: 1px solid var(--borde-azul);
+}
+
+[data-tema="oscuro"] .programa-badge--verde { background: rgba(16, 185, 129, 0.18); color: #34d399; }
+[data-tema="oscuro"] .programa-badge--ambar { background: rgba(245, 158, 11, 0.18); color: #fbbf24; }
+[data-tema="oscuro"] .programa-badge--azul { background: rgba(37, 99, 235, 0.18); color: var(--azul-cielo); }
+
+.programa-card__titulo {
+  font-size: 1.18rem;
+  font-weight: 800;
+  color: var(--texto-titulos);
+  line-height: 1.25;
+  margin-bottom: 4px;
+}
+
+.programa-card__grado {
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+  margin-bottom: 16px;
+}
+
+.programa-card__detalles {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: var(--radio-md);
+  background: var(--fondo-muted);
+  border: 1px solid var(--borde-suave);
+  margin-bottom: 16px;
+}
+
+.programa-card__detalle-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--texto-cuerpo);
+}
+
+.programa-card__detalle-item strong {
+  color: var(--texto-titulos);
+}
+
+.programa-card__cupo-seccion {
+  margin-bottom: 18px;
+}
+
+.programa-card__cupo-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.76rem;
+  margin-bottom: 6px;
+  color: var(--texto-suave);
+}
+
+.programa-card__cupo-labels strong {
+  color: var(--texto-titulos);
+}
+
+.programa-card__barra {
+  width: 100%;
+  height: 8px;
+  border-radius: 9999px;
+  background: var(--borde);
+  overflow: hidden;
+}
+
+.programa-card__barra-progreso {
+  height: 100%;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, var(--azul-vibrante), var(--azul-rey));
+  transition: width 0.6s var(--curva-suave);
+}
+
+.programa-card__footer {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--borde-suave);
+}
+
+.programa-card__accion {
+  width: 100%;
+  justify-content: space-between;
+}
+
+/* Modales Institucionales */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(8px);
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  animation: fadeIn 0.2s var(--curva-suave);
+}
+
+.modal-contenido {
+  width: min(640px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--fondo-tarjeta);
+  border-radius: var(--radio-xl);
+  border: 1px solid var(--borde);
+  box-shadow: var(--sombra-lg);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.modal-titulo {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--texto-titulos);
+  line-height: 1.25;
+}
+
+.modal-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  padding: 16px;
+  border-radius: var(--radio-lg);
+  background: var(--fondo-muted);
+  border: 1px solid var(--borde-suave);
+  font-size: 0.88rem;
+}
+
+.modal-info-grid strong {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--texto-suave);
+  margin-bottom: 2px;
+}
+
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--borde-suave);
+}
+
+/* ---------- 2. Evaluaciones y Tablas Elevadas ---------- */
+.modulo-kpis-fila {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+
+.modulo-kpi-item {
+  background: var(--fondo-tarjeta);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-lg);
+  padding: 16px;
+  box-shadow: var(--sombra-xs);
+  display: flex;
+  flex-direction: column;
+}
+
+.modulo-kpi-item__label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--texto-suave);
+  margin-bottom: 4px;
+}
+
+.modulo-kpi-item__valor {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: var(--texto-titulos);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.modulo-kpi-item__sub {
+  font-size: 0.72rem;
+  color: var(--texto-muted);
+  margin-top: 4px;
+}
+
+.modulo-tabla-card {
+  background: var(--fondo-tarjeta);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-xl);
+  overflow: hidden;
+  box-shadow: var(--sombra-xs);
+}
+
+.styled-table--elevated th {
+  background: var(--fondo-muted);
+  padding: 12px 16px;
+}
+
+.styled-table--elevated td {
+  padding: 14px 16px;
+}
+
+.nombre-persona {
+  font-weight: 700;
+  color: var(--texto-titulos);
+  display: block;
+}
+
+.fecha-suave {
+  font-size: 0.72rem;
+  color: var(--texto-muted);
+}
+
+.calificacion-pill {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: var(--radio-pildora);
+  font-family: monospace;
+  font-weight: 800;
+  font-size: 0.88rem;
+  background: var(--azul-subtle);
+  color: var(--azul-rey);
+  border: 1px solid var(--borde-azul);
+}
+
+.calificacion-pill--vacia {
+  background: var(--fondo-muted);
+  color: var(--texto-muted);
+  border-color: var(--borde);
+}
+
+.boton-secundario--sm,
+.boton-principal--sm {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+}
+
+/* Chips de Filtros */
+.modulo-chips-filtros {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.modulo-chip {
+  padding: 6px 14px;
+  border-radius: var(--radio-pildora);
+  border: 1px solid var(--borde);
+  background: var(--fondo-tarjeta);
+  color: var(--texto-suave);
+  font-family: var(--fuente);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transicion-rapida);
+}
+
+.modulo-chip:hover {
+  border-color: var(--borde-azul);
+  color: var(--azul-rey);
+}
+
+.modulo-chip--activo {
+  background: var(--azul-rey);
+  color: #ffffff;
+  border-color: var(--azul-rey);
+  box-shadow: var(--sombra-azul-sm);
+}
+
+/* ---------- 3. Criterios de Evaluación y Rúbrica ---------- */
+.modulo-balance-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: var(--radio-pildora);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.modulo-balance-badge--ok {
+  background: rgba(16, 185, 129, 0.1);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.criterios-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.criterio-card {
+  background: var(--fondo-tarjeta);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-xl);
+  padding: 20px 24px;
+  box-shadow: var(--sombra-xs);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: transform var(--transicion-rapida), box-shadow var(--transicion-rapida);
+}
+
+.criterio-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-sm);
+  border-color: var(--borde-azul);
+}
+
+.criterio-card__porcentaje-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radio-lg);
+  background: var(--azul-subtle);
+  border: 1px solid var(--borde-azul);
+  color: var(--azul-rey);
+  flex-shrink: 0;
+}
+
+[data-tema="oscuro"] .criterio-card__porcentaje-box {
+  background: rgba(37, 99, 235, 0.18);
+  color: var(--azul-cielo);
+  border-color: rgba(96, 165, 250, 0.3);
+}
+
+.criterio-card__porcentaje-num {
+  font-size: 1.65rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.criterio-card__porcentaje-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 2px;
+}
+
+.criterio-card__contenido {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.criterio-card__top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.criterio-card__escala {
+  font-size: 0.74rem;
+  color: var(--texto-suave);
+  margin-left: auto;
+}
+
+.criterio-card__nombre {
+  font-size: 1.12rem;
+  font-weight: 800;
+  color: var(--texto-titulos);
+}
+
+.criterio-card__desc {
+  font-size: 0.85rem;
+  color: var(--texto-cuerpo);
+  line-height: 1.45;
+}
+
+.criterio-card__programas {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.76rem;
+  color: var(--texto-suave);
+  margin-top: 4px;
+}
+
+.criterio-chip-prog {
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--fondo-muted);
+  border: 1px solid var(--borde-suave);
+  color: var(--texto-titulos);
+  font-weight: 600;
+}
+
+/* ---------- 4. Reportes y Analíticas ---------- */
+.reportes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.reporte-panel {
+  background: var(--fondo-tarjeta);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-xl);
+  padding: 24px;
+  box-shadow: var(--sombra-xs);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.reporte-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--borde-suave);
+  padding-bottom: 14px;
+}
+
+.reporte-panel__titulo {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--texto-titulos);
+}
+
+.reporte-barras-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.reporte-barra-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.reporte-barra-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+}
+
+.reporte-barra-nombre {
+  font-weight: 600;
+  color: var(--texto-titulos);
+}
+
+.reporte-barra-valor {
+  color: var(--texto-suave);
+  font-variant-numeric: tabular-nums;
+}
+
+.reporte-barra-track {
+  width: 100%;
+  height: 9px;
+  border-radius: 9999px;
+  background: var(--borde-suave);
+  overflow: hidden;
+}
+
+.reporte-barra-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.7s var(--curva-suave);
+}
+
+.reporte-estados-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.reporte-estado-box {
+  padding: 16px;
+  border-radius: var(--radio-lg);
+  background: var(--fondo-muted);
+  border: 1px solid var(--borde-suave);
+}
+
+.reporte-estado-box__num {
+  font-size: 1.8rem;
+  font-weight: 900;
+  line-height: 1;
+  display: block;
+}
+
+.reporte-estado-box__label {
+  font-weight: 700;
+  font-size: 0.86rem;
+  color: var(--texto-titulos);
+  margin-top: 4px;
+  display: block;
+}
+
+.reporte-estado-box__sub {
+  font-size: 0.76rem;
+  color: var(--texto-suave);
+  margin-top: 2px;
+}
+
+/* ---------- 5. Expediente de Documentos del Alumno ---------- */
+.expediente-progreso-card {
+  background: linear-gradient(135deg, var(--azul-subtle) 0%, var(--fondo-tarjeta) 100%);
+  border: 1px solid var(--borde-azul);
+  border-radius: var(--radio-xl);
+  padding: 22px 26px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: var(--sombra-xs);
+}
+
+[data-tema="oscuro"] .expediente-progreso-card {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.12) 0%, var(--fondo-tarjeta) 100%);
+  border-color: rgba(96, 165, 250, 0.25);
+}
+
+.expediente-progreso-card__icono {
+  width: 54px;
+  height: 54px;
+  border-radius: var(--radio-lg);
+  background: var(--azul-rey);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  box-shadow: var(--sombra-azul-sm);
+}
+
+.expediente-progreso-card__info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.expediente-progreso-card__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.expediente-progreso-card__titulo {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--texto-titulos);
+}
+
+.expediente-progreso-card__porcentaje {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--azul-rey);
+}
+
+[data-tema="oscuro"] .expediente-progreso-card__porcentaje {
+  color: var(--azul-cielo);
+}
+
+.expediente-progreso-card__track {
+  width: 100%;
+  height: 8px;
+  border-radius: 9999px;
+  background: var(--borde);
+  overflow: hidden;
+}
+
+.expediente-progreso-card__bar {
+  height: 100%;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, var(--azul-vibrante), var(--azul-rey));
+  transition: width 0.6s var(--curva-suave);
+}
+
+.expediente-progreso-card__sub {
+  font-size: 0.78rem;
+  color: var(--texto-suave);
+}
+
+.tag-obligatorio {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+}
+
+.archivo-adjunto-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--azul-rey);
+  font-weight: 600;
+}
+
+.archivo-adjunto-label--sin {
+  color: var(--texto-muted);
+  font-weight: 400;
+}
+
+/* ---------- 6. Mis Cursos (Docente) ---------- */
+.cursos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.curso-card {
+  background: var(--fondo-tarjeta);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-xl);
+  padding: 24px;
+  box-shadow: var(--sombra-xs);
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transicion-rapida), box-shadow var(--transicion-rapida);
+}
+
+.curso-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--sombra-md);
+  border-color: var(--borde-azul);
+}
+
+.curso-card__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.curso-card__icono-box {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radio-md);
+  background: var(--azul-subtle);
+  color: var(--azul-rey);
+  border: 1px solid var(--borde-azul);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+[data-tema="oscuro"] .curso-card__icono-box {
+  background: rgba(37, 99, 235, 0.18);
+  color: var(--azul-cielo);
+  border-color: rgba(96, 165, 250, 0.3);
+}
+
+.curso-card__identidad {
+  display: flex;
+  flex-direction: column;
+}
+
+.curso-card__grupo {
+  font-size: 0.74rem;
+  color: var(--texto-suave);
+  font-weight: 600;
+}
+
+.curso-card__nombre {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--texto-titulos);
+  line-height: 1.25;
+  margin-bottom: 4px;
+}
+
+.curso-card__programa {
+  font-size: 0.84rem;
+  color: var(--texto-suave);
+  margin-bottom: 16px;
+}
+
+.curso-card__detalles {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: var(--radio-md);
+  background: var(--fondo-muted);
+  border: 1px solid var(--borde-suave);
+  margin-bottom: 16px;
+}
+
+.curso-card__detalle-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--texto-cuerpo);
+}
+
+.curso-card__avance-seccion {
+  margin-bottom: 18px;
+}
+
+.curso-card__avance-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.76rem;
+  margin-bottom: 6px;
+  color: var(--texto-suave);
+}
+
+.curso-card__footer {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--borde-suave);
+}
+
+.curso-card__accion {
+  width: 100%;
+  justify-content: center;
+}
+
+/* ---------- 7. Configuración Institucional ---------- */
+.configuracion-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 20px;
+}
+
+.configuracion-card {
+  background: var(--fondo-tarjeta);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-xl);
+  padding: 24px;
+  box-shadow: var(--sombra-xs);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.configuracion-card__header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--borde-suave);
+}
+
+.configuracion-card__icono {
+  color: var(--azul-rey);
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.configuracion-card__titulo {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--texto-titulos);
+}
+
+.configuracion-card__desc {
+  font-size: 0.82rem;
+  color: var(--texto-suave);
+}
+
+.configuracion-card__cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.select-estilizado {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: var(--radio-md);
+  border: 1px solid var(--borde);
+  background: var(--fondo-tarjeta);
+  color: var(--texto-titulos);
+  font-family: var(--fuente);
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 14px;
+  border-radius: var(--radio-md);
+  background: var(--fondo-muted);
+  border: 1px solid var(--borde-suave);
+}
+
+.toggle-row strong {
+  font-size: 0.86rem;
+  color: var(--texto-titulos);
+  display: block;
+}
+
+.toggle-row p {
+  font-size: 0.78rem;
+  color: var(--texto-suave);
+  margin-top: 2px;
+}
+
+.toggle-checkbox {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--azul-rey);
+  cursor: pointer;
+}
+
+.seguridad-aviso-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px;
+  border-radius: var(--radio-md);
+  background: var(--azul-subtle);
+  border: 1px solid var(--borde-azul);
+  color: var(--azul-institucional);
+}
+
+[data-tema="oscuro"] .seguridad-aviso-box {
+  background: rgba(37, 99, 235, 0.15);
+  border-color: rgba(96, 165, 250, 0.3);
+  color: var(--azul-cielo);
+}
+
+.seguridad-aviso-box strong {
+  font-size: 0.84rem;
+  display: block;
+}
+
+.seguridad-aviso-box p {
+  font-size: 0.78rem;
+  margin-top: 2px;
+}
