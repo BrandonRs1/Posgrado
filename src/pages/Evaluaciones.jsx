@@ -10,6 +10,7 @@ import {
   Upload,
   Trash2,
   Calendar,
+  RefreshCw,
 } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "../context/AuthContext.jsx";
@@ -18,6 +19,8 @@ import {
   obtenerSeguimientoTitulacion,
   profesorSubirTesisAlumno,
   profesorEliminarTesisAlumno,
+  sincronizarDesdeSupabase,
+  obtenerUrlParaAbrirPdf,
 } from "../lib/expedienteYCitas.js";
 
 const PONDERACION_ASPIRANTES = [
@@ -78,24 +81,45 @@ function calcularPromedioPonderado(item) {
 
 export default function Evaluaciones() {
   const { perfil } = useAuth();
-  const [vistaActiva, setVistaActiva] = useState("titulacion"); // 'ponderacion' | 'titulacion' | 'citas'
+  const [vistaActiva, setVistaActiva] = useState("titulacion");
   const [busqueda, setBusqueda] = useState("");
   const [evaluacionModal, setEvaluacionModal] = useState(null);
+  const [sincronizando, setSincronizando] = useState(false);
 
-  // Estado de tesis por alumno (con opciones de agregar desde dispositivo y eliminar para el profesor)
   const [listaTitulacion, setListaTitulacion] = useState(() => obtenerSeguimientoTitulacion());
   const [registroTesisObjetivo, setRegistroTesisObjetivo] = useState(null);
   const inputTesisRef = useRef(null);
 
   useEffect(() => {
-    const sincronizar = () => setListaTitulacion(obtenerSeguimientoTitulacion());
-    window.addEventListener("posgrados:sync", sincronizar);
-    window.addEventListener("storage", sincronizar);
+    const actualizarLocal = () => setListaTitulacion(obtenerSeguimientoTitulacion());
+    window.addEventListener("posgrados:sync", actualizarLocal);
+    window.addEventListener("storage", actualizarLocal);
+
+    // Sincronizar desde Supabase al abrir en otra PC, al recuperar el foco y cada 8s
+    sincronizarDesdeSupabase(perfil?.id);
+
+    const alEnfocar = () => sincronizarDesdeSupabase(perfil?.id);
+    window.addEventListener("focus", alEnfocar);
+
+    const intervalo = setInterval(() => {
+      sincronizarDesdeSupabase(perfil?.id);
+    }, 8000);
+
     return () => {
-      window.removeEventListener("posgrados:sync", sincronizar);
-      window.removeEventListener("storage", sincronizar);
+      window.removeEventListener("posgrados:sync", actualizarLocal);
+      window.removeEventListener("storage", actualizarLocal);
+      window.removeEventListener("focus", alEnfocar);
+      clearInterval(intervalo);
     };
-  }, []);
+  }, [perfil?.id]);
+
+  const forzarSincronizacionManual = async () => {
+    setSincronizando(true);
+    await sincronizarDesdeSupabase(perfil?.id);
+    setListaTitulacion(obtenerSeguimientoTitulacion());
+    setSincronizando(false);
+    toast.success("Datos sincronizados con el servidor.");
+  };
 
   const abrirSelectorTesisDispositivo = (registroAlumno) => {
     setRegistroTesisObjetivo(registroAlumno);
@@ -120,31 +144,37 @@ export default function Evaluaciones() {
       return;
     }
 
+    const toastId = toast.loading(`Subiendo tesis "${file.name}" al servidor…`);
     const actualizada = await profesorSubirTesisAlumno(
       registroTesisObjetivo.id,
       file,
       perfil?.id
     );
     setListaTitulacion(actualizada);
+    toast.dismiss(toastId);
     toast.success(
-      `Tesis "${file.name}" agregada correctamente al alumno ${registroTesisObjetivo.alumno}.`
+      `Tesis "${file.name}" agregada y sincronizada para ${registroTesisObjetivo.alumno}.`
     );
     setRegistroTesisObjetivo(null);
   };
 
-  const handleEliminarTesisAlumno = (registroAlumno) => {
+  const handleEliminarTesisAlumno = async (registroAlumno) => {
     if (!registroAlumno.tesisArchivo) {
       toast.info(`El alumno ${registroAlumno.alumno} no tiene una tesis cargada actualmente.`);
       return;
     }
-    const actualizada = profesorEliminarTesisAlumno(registroAlumno.id);
+    const actualizada = await profesorEliminarTesisAlumno(registroAlumno.id, perfil?.id);
     setListaTitulacion(actualizada);
     toast.success(`Se eliminó la tesis de ${registroAlumno.alumno}.`);
   };
 
-  const abrirPdfTesis = (registroAlumno) => {
-    if (registroAlumno.tesisUrl) {
-      window.open(registroAlumno.tesisUrl, "_blank", "noopener,noreferrer");
+  const abrirPdfTesis = async (registroAlumno) => {
+    const url = await obtenerUrlParaAbrirPdf(
+      registroAlumno.rutaStorage,
+      registroAlumno.tesisUrl
+    );
+    if (url) {
+      window.open(url, "_blank", "noopener,noreferrer");
     } else if (registroAlumno.tesisArchivo) {
       toast.success(`Abriendo archivo de tesis: ${registroAlumno.tesisArchivo}`);
     }
@@ -192,6 +222,15 @@ export default function Evaluaciones() {
         </div>
 
         <div className="modulo-acciones">
+          <button
+            type="button"
+            className="boton-secundario"
+            onClick={forzarSincronizacionManual}
+            disabled={sincronizando}
+          >
+            <RefreshCw size={15} aria-hidden="true" />
+            <span>{sincronizando ? "Sincronizando…" : "Sincronizar"}</span>
+          </button>
           <button
             type="button"
             className="boton-secundario"

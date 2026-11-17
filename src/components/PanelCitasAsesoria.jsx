@@ -22,6 +22,7 @@ import {
   marcarCheckAsistenciaCita,
   simularPasoDeUnaHoraSinCheck,
   obtenerTimestampCita,
+  sincronizarDesdeSupabase,
 } from "../lib/expedienteYCitas.js";
 
 const ALUMNOS_DISPONIBLES = [
@@ -111,9 +112,12 @@ export default function PanelCitasAsesoria({ rolVista = "alumno", nombreUsuario 
     window.addEventListener("posgrados:sync", actualizar);
     window.addEventListener("storage", actualizar);
 
+    sincronizarDesdeSupabase();
+
     const intervalo = setInterval(() => {
+      sincronizarDesdeSupabase();
       setCitas(obtenerCitasAsesoria());
-    }, 15000);
+    }, 10000);
 
     return () => {
       window.removeEventListener("posgrados:sync", actualizar);

@@ -12,6 +12,7 @@ export const DOCUMENTOS_INICIALES = [
     nombre: "Solicitud de ingreso al posgrado",
     archivo: "Solicitud_Ingreso_Metalurgia.pdf",
     archivoUrl: null,
+    rutaStorage: null,
     estatus: "Validado",
     tamano: "1.1 MB",
     tienePlantilla: true,
@@ -23,6 +24,7 @@ export const DOCUMENTOS_INICIALES = [
     nombre: "Certificado de calificaciones de licenciatura",
     archivo: "Certificado_Calificaciones_Lic.pdf",
     archivoUrl: null,
+    rutaStorage: null,
     estatus: "Validado",
     tamano: "2.3 MB",
     tienePlantilla: false,
@@ -34,6 +36,7 @@ export const DOCUMENTOS_INICIALES = [
     nombre: "Cédula profesional de licenciatura",
     archivo: "Cedula_Licenciatura.pdf",
     archivoUrl: null,
+    rutaStorage: null,
     estatus: "Validado",
     tamano: "950 KB",
     tienePlantilla: false,
@@ -45,6 +48,7 @@ export const DOCUMENTOS_INICIALES = [
     nombre: "Identificación oficial vigente (INE)",
     archivo: "INE_Vigente.pdf",
     archivoUrl: null,
+    rutaStorage: null,
     estatus: "Validado",
     tamano: "780 KB",
     tienePlantilla: false,
@@ -58,6 +62,7 @@ export const DOCUMENTOS_INICIALES = [
     nombre: "Consentimiento informado para uso de datos personales",
     archivo: "Consentimiento_Datos_ITM.pdf",
     archivoUrl: null,
+    rutaStorage: null,
     estatus: "Validado",
     tamano: "640 KB",
     tienePlantilla: true,
@@ -69,6 +74,7 @@ export const DOCUMENTOS_INICIALES = [
     nombre: "Carta de aceptación oficial emitida por Coordinación–Consejo",
     archivo: "Carta_Aceptacion_MCM_2026.pdf",
     archivoUrl: null,
+    rutaStorage: null,
     estatus: "Validado",
     tamano: "890 KB",
     tienePlantilla: false,
@@ -80,6 +86,7 @@ export const DOCUMENTOS_INICIALES = [
     nombre: "Certificado global de licenciatura",
     archivo: "Certificado_Global_Licenciatura.pdf",
     archivoUrl: null,
+    rutaStorage: null,
     estatus: "Validado",
     tamano: "2.8 MB",
     tienePlantilla: false,
@@ -91,6 +98,7 @@ export const DOCUMENTOS_INICIALES = [
     nombre: "Comprobante de idioma inglés TOEFL (vigencia máxima 2 años)",
     archivo: "TOEFL_Vigente_24meses.pdf",
     archivoUrl: null,
+    rutaStorage: null,
     estatus: "Validado",
     tamano: "1.4 MB",
     tienePlantilla: false,
@@ -102,6 +110,7 @@ export const DOCUMENTOS_INICIALES = [
     nombre: "Carta de exclusividad SECIHTI firmada",
     archivo: "Carta_Exclusividad_SECIHTI_Firmada.pdf",
     archivoUrl: null,
+    rutaStorage: null,
     estatus: "Validado",
     tamano: "1.2 MB",
     tienePlantilla: true,
@@ -113,6 +122,7 @@ export const DOCUMENTOS_INICIALES = [
     nombre: "Evaluación del desempeño del becario (EDB) con kárdex semestral",
     archivo: "EDB_y_Kardex_Semestre_Actual.pdf",
     archivoUrl: null,
+    rutaStorage: null,
     estatus: "Validado",
     tamano: "1.9 MB",
     tienePlantilla: true,
@@ -126,6 +136,7 @@ export const DOCUMENTOS_INICIALES = [
     nombre: "1ra revisión de tesis firmada por comité tutorial",
     archivo: "1ra_Revision_Tesis_Firmada_Comite.pdf",
     archivoUrl: null,
+    rutaStorage: null,
     estatus: "Validado",
     tamano: "3.1 MB",
     tienePlantilla: true,
@@ -137,6 +148,7 @@ export const DOCUMENTOS_INICIALES = [
     nombre: "2da revisión de tesis",
     archivo: "2da_Revision_Tesis.pdf",
     archivoUrl: null,
+    rutaStorage: null,
     estatus: "En revisión",
     tamano: "3.4 MB",
     tienePlantilla: true,
@@ -148,6 +160,7 @@ export const DOCUMENTOS_INICIALES = [
     nombre: "Tesis digital versión final (Folio: MCM-ITM-2026-008)",
     archivo: null,
     archivoUrl: null,
+    rutaStorage: null,
     estatus: "Pendiente",
     tamano: "—",
     tienePlantilla: false,
@@ -159,6 +172,7 @@ export const DOCUMENTOS_INICIALES = [
     nombre: "Solicitud de acta de grado ante DEPI / Servicios Escolares",
     archivo: null,
     archivoUrl: null,
+    rutaStorage: null,
     estatus: "Pendiente",
     tamano: "—",
     tienePlantilla: true,
@@ -170,6 +184,7 @@ export const DOCUMENTOS_INICIALES = [
     nombre: "Carta de retribución social",
     archivo: null,
     archivoUrl: null,
+    rutaStorage: null,
     estatus: "Pendiente",
     tamano: "—",
     tienePlantilla: true,
@@ -191,6 +206,7 @@ export const SEGUIMIENTO_TITULACION_INICIAL = [
     tesisArchivo: "Tesis_Final_Mariana_Hernandez.pdf",
     tesisTamano: "4.2 MB",
     tesisUrl: null,
+    rutaStorage: null,
     tramiteDepiActaGrado: "Acta emitida",
     cartaRetribucionSocial: "Generada",
   },
@@ -207,6 +223,7 @@ export const SEGUIMIENTO_TITULACION_INICIAL = [
     tesisArchivo: null,
     tesisTamano: null,
     tesisUrl: null,
+    rutaStorage: null,
     tramiteDepiActaGrado: "En trámite",
     cartaRetribucionSocial: "Pendiente",
   },
@@ -223,18 +240,16 @@ export const SEGUIMIENTO_TITULACION_INICIAL = [
     tesisArchivo: null,
     tesisTamano: null,
     tesisUrl: null,
+    rutaStorage: null,
     tramiteDepiActaGrado: "—",
     cartaRetribucionSocial: "—",
   },
 ];
 
-// Fechas de demostración relativas al momento actual para probar todos los estados
 function crearCitasIniciales() {
   const ahora = new Date();
-
   const manana = new Date(ahora.getTime() + 24 * 60 * 60 * 1000);
   const fechaManana = manana.toISOString().slice(0, 10);
-
   const hoy = ahora.toISOString().slice(0, 10);
   const haceDosDias = new Date(ahora.getTime() - 2 * 24 * 60 * 60 * 1000)
     .toISOString()
@@ -253,9 +268,9 @@ function crearCitasIniciales() {
       horaCita: "11:00",
       modalidad: "Presencial · Cubículo 4 (Lab. Metalurgia)",
       motivo: "Revisión de correcciones del capítulo 3 y resultados de microscopía.",
-      solicitadaPor: "alumno", // 'alumno' | 'asesor'
+      solicitadaPor: "alumno",
       fechaAgendadaEn: new Date(ahora.getTime() - 4 * 60 * 60 * 1000).toISOString(),
-      estatus: "pendiente", // 'pendiente' | 'confirmada' | 'rechazada' | 'cancelada' | 'asistieron' | 'no_se_vieron'
+      estatus: "pendiente",
       checkProfesor: false,
       checkAlumno: false,
       checkMarcadoEn: null,
@@ -295,7 +310,6 @@ function crearCitasIniciales() {
       motivo: "Revisión de protocolo semestral y avance experimental.",
       solicitadaPor: "alumno",
       fechaAgendadaEn: new Date(ahora.getTime() - 36 * 60 * 60 * 1000).toISOString(),
-      // Esta cita tenía estatus confirmada pero ya pasó más de 1 hora sin check -> se evalúa como 'no_se_vieron'
       estatus: "confirmada",
       checkProfesor: false,
       checkAlumno: false,
@@ -333,17 +347,16 @@ function emitirCambio() {
 }
 
 export function formatearTamano(bytes) {
-  if (!bytes || isNaN(bytes)) return "1.0 MB";
-  if (bytes < 1024 * 1024) {
-    return `${Math.max(1, Math.round(bytes / 1024))} KB`;
+  const num = Number(bytes);
+  if (!num || isNaN(num)) return "1.0 MB";
+  if (num < 1024 * 1024) {
+    return `${Math.max(1, Math.round(num / 1024))} KB`;
   }
-  return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+  return `${(num / (1024 * 1024)).toFixed(2)} MB`;
 }
 
 export function convertirArchivoADataUrl(file) {
   return new Promise((resolve) => {
-    // Si el archivo es menor a 3.5 MB lo guardamos en base64 para que persista al recargar;
-    // si es mayor, usamos un ObjectURL de sesión para no saturar localStorage
     if (file.size <= 3.5 * 1024 * 1024) {
       const reader = new FileReader();
       reader.onload = () => resolve(reader.result);
@@ -355,20 +368,323 @@ export function convertirArchivoADataUrl(file) {
   });
 }
 
-// Intentar subir también a Supabase Storage si existe sesión activa
-export async function intentarSubidaSupabase(usuarioId, codigoDoc, file) {
-  if (!usuarioId || !file) return null;
+async function resolverUsuarioIdActual(usuarioIdProvisto = null) {
+  if (usuarioIdProvisto) return usuarioIdProvisto;
   try {
-    const nombreLimpio = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
-    const ruta = `${usuarioId}/${codigoDoc}/${Date.now()}_${nombreLimpio}`;
-    const { error } = await supabase.storage
-      .from("documentos")
-      .upload(ruta, file, { contentType: file.type || "application/pdf", upsert: true });
-    if (error) return null;
-    const { data } = await supabase.storage.from("documentos").createSignedUrl(ruta, 3600 * 24);
-    return data?.signedUrl || null;
+    const { data: sessionData } = await supabase.auth.getSession();
+    const authUid = sessionData?.session?.user?.id;
+    if (!authUid) return null;
+    const { data: u } = await supabase
+      .from("usuarios")
+      .select("id")
+      .eq("auth_uid", authUid)
+      .maybeSingle();
+    return u?.id || null;
   } catch {
     return null;
+  }
+}
+
+// ============================================================================
+// SUBIDA Y SINCRONIZACIÓN REAL CON SUPABASE ENTRE DISTINTAS PCs
+// ============================================================================
+// Formato de archivo en el bucket 'documentos':
+//   <carpetaUsuario>/DOC_<claveId>_<timestamp>_<tamanoBytes>___<nombreArchivo.pdf>
+//   <carpetaUsuario>/DEL_<claveId>_<timestamp>_0___eliminado.pdf
+//IMPORTANTE: Se usa upsert: false para que funcione con la política INSERT de 02_seguridad.sql
+// incluso si aún no se ha corrido 06_tesis_y_citas_asesoria.sql.
+
+const REGEX_EVENTO_STORAGE = /^(DOC|DEL)_([A-Za-z0-9-]+)_(\d+)_(\d+)___(.+)$/;
+
+export async function subirEventoArchivoSupabase(usuarioId, claveId, file) {
+  const uid = await resolverUsuarioIdActual(usuarioId);
+  if (!uid || !file) return { signedUrl: null, ruta: null };
+
+  const nombreSeguro = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+  const timestamp = Date.now();
+  const nombreObjeto = `DOC_${claveId}_${timestamp}_${file.size}___${nombreSeguro}`;
+  const ruta = `${uid}/${nombreObjeto}`;
+
+  try {
+    const { error } = await supabase.storage
+      .from("documentos")
+      .upload(ruta, file, {
+        contentType: "application/pdf",
+        upsert: false,
+      });
+
+    if (error) {
+      return { signedUrl: null, ruta: null, error };
+    }
+
+    const { data } = await supabase.storage
+      .from("documentos")
+      .createSignedUrl(ruta, 3600 * 24 * 7);
+
+    return {
+      signedUrl: data?.signedUrl || null,
+      ruta,
+    };
+  } catch (err) {
+    return { signedUrl: null, ruta: null, error: err };
+  }
+}
+
+export async function registrarEliminacionEnSupabase(usuarioId, claveId) {
+  const uid = await resolverUsuarioIdActual(usuarioId);
+  if (!uid) return;
+
+  const timestamp = Date.now();
+  const nombreObjeto = `DEL_${claveId}_${timestamp}_0___eliminado.pdf`;
+  const ruta = `${uid}/${nombreObjeto}`;
+  const pdfMinimo = new Blob(["%PDF-1.4\n%eliminado\n"], { type: "application/pdf" });
+
+  try {
+    await supabase.storage.from("documentos").upload(ruta, pdfMinimo, {
+      contentType: "application/pdf",
+      upsert: false,
+    });
+  } catch {
+    // Ignorar si no hay red
+  }
+}
+
+// Guarda también en la tabla estado_compartido_posgrado si el usuario ya corrió 06_tesis_y_citas_asesoria.sql
+async function guardarEstadoRemotoTabla(clave, datos) {
+  try {
+    // Limpiamos data URLs base64 largos para guardar solo metadatos y rutas de Supabase Storage
+    const datosLimpios = Array.isArray(datos)
+      ? datos.map((item) => ({
+          ...item,
+          archivoUrl: item.archivoUrl?.startsWith("data:") ? null : item.archivoUrl,
+          tesisUrl: item.tesisUrl?.startsWith("data:") ? null : item.tesisUrl,
+        }))
+      : datos;
+
+    await supabase.from("estado_compartido_posgrado").upsert(
+      {
+        clave,
+        datos: datosLimpios,
+        actualizado_en: new Date().toISOString(),
+      },
+      { onConflict: "clave" }
+    );
+  } catch {
+    // Si la tabla 06 aún no existe, el respaldo por Supabase Storage sigue funcionando
+  }
+}
+
+// Abrir un PDF generando un Signed URL fresco desde Supabase Storage si se abrió desde otra PC
+export async function obtenerUrlParaAbrirPdf(rutaStorage, urlActual) {
+  if (rutaStorage) {
+    try {
+      const { data } = await supabase.storage
+        .from("documentos")
+        .createSignedUrl(rutaStorage, 3600 * 12);
+      if (data?.signedUrl) return data.signedUrl;
+    } catch {
+      // Fallback a urlActual
+    }
+  }
+  return urlActual || null;
+}
+
+// Lee desde Supabase (tanto la tabla estado_compartido_posgrado como las carpetas del bucket 'documentos')
+// para que al abrir la página en OTRA PC aparezcan todos los PDFs, tesis y citas actualizados.
+export async function sincronizarDesdeSupabase(usuarioId = null) {
+  const uid = await resolverUsuarioIdActual(usuarioId);
+  let huboActualizacion = false;
+
+  // 1) Intentar leer desde la tabla estado_compartido_posgrado (si 06_tesis_y_citas_asesoria.sql está activo)
+  try {
+    const { data: filasEstado, error: errTabla } = await supabase
+      .from("estado_compartido_posgrado")
+      .select("clave, datos");
+
+    if (!errTabla && Array.isArray(filasEstado) && filasEstado.length > 0) {
+      for (const fila of filasEstado) {
+        if (fila.clave === "documentos" && Array.isArray(fila.datos)) {
+          localStorage.setItem(STORAGE_KEY_DOCS, JSON.stringify(fila.datos));
+          huboActualizacion = true;
+        } else if (fila.clave === "titulacion" && Array.isArray(fila.datos)) {
+          localStorage.setItem(STORAGE_KEY_TESIS, JSON.stringify(fila.datos));
+          huboActualizacion = true;
+        } else if (fila.clave === "citas" && Array.isArray(fila.datos)) {
+          const { citas } = evaluarExpiracionUnaHora(fila.datos);
+          localStorage.setItem(STORAGE_KEY_CITAS, JSON.stringify(citas));
+          huboActualizacion = true;
+        }
+      }
+    }
+  } catch {
+    // Continuar con el escaneo directo del bucket 'documentos'
+  }
+
+  // 2) Escanear directamente el bucket 'documentos' en Supabase Storage (funciona con 02_seguridad.sql)
+  try {
+    const carpetasAEscanear = new Set();
+    if (uid) carpetasAEscanear.add(uid);
+
+    // Si es admin/coordinador o profesor, puede ver los IDs de usuarios visibles en public.usuarios
+    const { data: usuariosVisibles } = await supabase.from("usuarios").select("id");
+    if (Array.isArray(usuariosVisibles)) {
+      usuariosVisibles.forEach((u) => {
+        if (u?.id) carpetasAEscanear.add(u.id);
+      });
+    }
+
+    const eventosStorage = [];
+
+    for (const carpeta of carpetasAEscanear) {
+      const { data: archivos, error } = await supabase.storage
+        .from("documentos")
+        .list(carpeta, { limit: 100 });
+
+      if (!error && Array.isArray(archivos)) {
+        for (const arch of archivos) {
+          const match = arch.name?.match(REGEX_EVENTO_STORAGE);
+          if (match) {
+            const [, tipoAccion, claveId, tsStr, bytesStr, nombreOriginal] = match;
+            eventosStorage.push({
+              tipoAccion, // 'DOC' | 'DEL'
+              claveId,
+              timestamp: Number(tsStr),
+              tamanoBytes: Number(bytesStr),
+              nombreOriginal,
+              rutaCompleta: `${carpeta}/${arch.name}`,
+            });
+          }
+        }
+      }
+    }
+
+    if (eventosStorage.length > 0) {
+      // Ordenar cronológicamente para quedarnos siempre con la última acción de cada documento/tesis
+      eventosStorage.sort((a, b) => a.timestamp - b.timestamp);
+
+      const ultimoPorClave = {};
+      for (const ev of eventosStorage) {
+        ultimoPorClave[ev.claveId] = ev;
+      }
+
+      let docsActuales = obtenerDocumentosExpediente();
+      let tesisActuales = obtenerSeguimientoTitulacion();
+      let cambioEnDocs = false;
+      let cambioEnTesis = false;
+
+      for (const [claveId, ev] of Object.entries(ultimoPorClave)) {
+        if (ev.tipoAccion === "DOC") {
+          const tamanoFormateado = formatearTamano(ev.tamanoBytes);
+
+          // ¿Corresponde a un documento del expediente (ASP-*, ACE-*, SEM-*, TIT-*)?
+          const idxDoc = docsActuales.findIndex((d) => d.id === claveId);
+          if (idxDoc !== -1) {
+            if (
+              docsActuales[idxDoc].archivo !== ev.nombreOriginal ||
+              docsActuales[idxDoc].rutaStorage !== ev.rutaCompleta
+            ) {
+              docsActuales[idxDoc] = {
+                ...docsActuales[idxDoc],
+                archivo: ev.nombreOriginal,
+                rutaStorage: ev.rutaCompleta,
+                tamano: tamanoFormateado,
+                estatus:
+                  docsActuales[idxDoc].estatus === "Pendiente"
+                    ? "En revisión"
+                    : docsActuales[idxDoc].estatus,
+              };
+              cambioEnDocs = true;
+            }
+
+            // Si es TIT-03, reflejar también en el primer alumno de titulación
+            if (claveId === "TIT-03" && tesisActuales.length > 0) {
+              tesisActuales[0] = {
+                ...tesisActuales[0],
+                tesisArchivo: ev.nombreOriginal,
+                tesisTamano: tamanoFormateado,
+                rutaStorage: ev.rutaCompleta,
+              };
+              cambioEnTesis = true;
+            }
+          }
+
+          // ¿Corresponde a una tesis subida a un alumno específico (TIT-ALU-01, etc.)?
+          const idxTesis = tesisActuales.findIndex((t) => t.id === claveId);
+          if (idxTesis !== -1) {
+            if (
+              tesisActuales[idxTesis].tesisArchivo !== ev.nombreOriginal ||
+              tesisActuales[idxTesis].rutaStorage !== ev.rutaCompleta
+            ) {
+              tesisActuales[idxTesis] = {
+                ...tesisActuales[idxTesis],
+                tesisArchivo: ev.nombreOriginal,
+                tesisTamano: tamanoFormateado,
+                rutaStorage: ev.rutaCompleta,
+              };
+              cambioEnTesis = true;
+            }
+
+            if (claveId === "TIT-ALU-01") {
+              docsActuales = docsActuales.map((d) =>
+                d.id === "TIT-03"
+                  ? {
+                      ...d,
+                      archivo: ev.nombreOriginal,
+                      rutaStorage: ev.rutaCompleta,
+                      tamano: tamanoFormateado,
+                      estatus: "Validado",
+                    }
+                  : d
+              );
+              cambioEnDocs = true;
+            }
+          }
+        } else if (ev.tipoAccion === "DEL") {
+          const idxTesis = tesisActuales.findIndex((t) => t.id === claveId);
+          if (idxTesis !== -1 && tesisActuales[idxTesis].tesisArchivo !== null) {
+            tesisActuales[idxTesis] = {
+              ...tesisActuales[idxTesis],
+              tesisArchivo: null,
+              tesisTamano: null,
+              tesisUrl: null,
+              rutaStorage: null,
+            };
+            cambioEnTesis = true;
+          }
+
+          if (claveId === "TIT-ALU-01" || claveId === "TIT-03") {
+            docsActuales = docsActuales.map((d) =>
+              d.id === "TIT-03"
+                ? {
+                    ...d,
+                    archivo: null,
+                    archivoUrl: null,
+                    rutaStorage: null,
+                    tamano: "—",
+                    estatus: "Pendiente",
+                  }
+                : d
+            );
+            cambioEnDocs = true;
+          }
+        }
+      }
+
+      if (cambioEnDocs) {
+        localStorage.setItem(STORAGE_KEY_DOCS, JSON.stringify(docsActuales));
+        huboActualizacion = true;
+      }
+      if (cambioEnTesis) {
+        localStorage.setItem(STORAGE_KEY_TESIS, JSON.stringify(tesisActuales));
+        huboActualizacion = true;
+      }
+    }
+  } catch {
+    // Sin conexión o sin sesión
+  }
+
+  if (huboActualizacion) {
+    emitirCambio();
   }
 }
 
@@ -387,19 +703,19 @@ export function guardarDocumentosExpediente(docs) {
   try {
     localStorage.setItem(STORAGE_KEY_DOCS, JSON.stringify(docs));
   } catch {
-    // En caso de límite de cuota en localStorage, conservamos metadatos sin base64 pesado
     const ligeros = docs.map((d) => ({
       ...d,
       archivoUrl: d.archivoUrl?.startsWith("data:") ? null : d.archivoUrl,
     }));
     localStorage.setItem(STORAGE_KEY_DOCS, JSON.stringify(ligeros));
   }
+  guardarEstadoRemotoTabla("documentos", docs);
   emitirCambio();
 }
 
 export async function subirDocumentoAlumnoDesdeDispositivo(docId, file, usuarioId = null) {
   const dataUrl = await convertirArchivoADataUrl(file);
-  const signedUrl = await intentarSubidaSupabase(usuarioId, docId, file);
+  const { signedUrl, ruta } = await subirEventoArchivoSupabase(usuarioId, docId, file);
   const urlFinal = signedUrl || dataUrl;
   const tamanoStr = formatearTamano(file.size);
 
@@ -409,6 +725,7 @@ export async function subirDocumentoAlumnoDesdeDispositivo(docId, file, usuarioI
       ...d,
       archivo: file.name,
       archivoUrl: urlFinal,
+      rutaStorage: ruta,
       tamano: tamanoStr,
       estatus: "En revisión",
       subidoEn: new Date().toISOString(),
@@ -417,7 +734,6 @@ export async function subirDocumentoAlumnoDesdeDispositivo(docId, file, usuarioI
 
   guardarDocumentosExpediente(docs);
 
-  // Si es el documento de Tesis Final (TIT-03), sincronizar también con el listado del profesor
   if (docId === "TIT-03") {
     const listaTesis = obtenerSeguimientoTitulacion();
     if (listaTesis.length > 0) {
@@ -426,6 +742,7 @@ export async function subirDocumentoAlumnoDesdeDispositivo(docId, file, usuarioI
         tesisArchivo: file.name,
         tesisTamano: tamanoStr,
         tesisUrl: urlFinal,
+        rutaStorage: ruta,
       };
       guardarSeguimientoTitulacion(listaTesis);
     }
@@ -455,12 +772,13 @@ export function guardarSeguimientoTitulacion(lista) {
     }));
     localStorage.setItem(STORAGE_KEY_TESIS, JSON.stringify(ligeros));
   }
+  guardarEstadoRemotoTabla("titulacion", lista);
   emitirCambio();
 }
 
 export async function profesorSubirTesisAlumno(registroId, file, usuarioId = null) {
   const dataUrl = await convertirArchivoADataUrl(file);
-  const signedUrl = await intentarSubidaSupabase(usuarioId, `tesis_${registroId}`, file);
+  const { signedUrl, ruta } = await subirEventoArchivoSupabase(usuarioId, registroId, file);
   const urlFinal = signedUrl || dataUrl;
   const tamanoStr = formatearTamano(file.size);
 
@@ -471,17 +789,18 @@ export async function profesorSubirTesisAlumno(registroId, file, usuarioId = nul
       tesisArchivo: file.name,
       tesisTamano: tamanoStr,
       tesisUrl: urlFinal,
+      rutaStorage: ruta,
     };
   });
   guardarSeguimientoTitulacion(lista);
 
-  // Sincronizar también con TIT-03 del expediente del alumno
   const docs = obtenerDocumentosExpediente().map((d) => {
     if (d.id !== "TIT-03") return d;
     return {
       ...d,
       archivo: file.name,
       archivoUrl: urlFinal,
+      rutaStorage: ruta,
       tamano: tamanoStr,
       estatus: "Validado",
     };
@@ -491,7 +810,9 @@ export async function profesorSubirTesisAlumno(registroId, file, usuarioId = nul
   return lista;
 }
 
-export function profesorEliminarTesisAlumno(registroId) {
+export async function profesorEliminarTesisAlumno(registroId, usuarioId = null) {
+  await registrarEliminacionEnSupabase(usuarioId, registroId);
+
   const lista = obtenerSeguimientoTitulacion().map((t) => {
     if (t.id !== registroId) return t;
     return {
@@ -499,17 +820,18 @@ export function profesorEliminarTesisAlumno(registroId) {
       tesisArchivo: null,
       tesisTamano: null,
       tesisUrl: null,
+      rutaStorage: null,
     };
   });
   guardarSeguimientoTitulacion(lista);
 
-  // Sincronizar también con TIT-03 del expediente del alumno si se eliminó la tesis
   const docs = obtenerDocumentosExpediente().map((d) => {
     if (d.id !== "TIT-03") return d;
     return {
       ...d,
       archivo: null,
       archivoUrl: null,
+      rutaStorage: null,
       tamano: "—",
       estatus: "Pendiente",
     };
@@ -527,7 +849,6 @@ export function obtenerTimestampCita(fechaCita, horaCita) {
   return isNaN(ms) ? null : ms;
 }
 
-// Revisa automáticamente si alguna cita confirmada ya superó 1 hora sin que se marcara el "check"
 export function evaluarExpiracionUnaHora(citas) {
   const ahoraMs = Date.now();
   const UNA_HORA_MS = 60 * 60 * 1000;
@@ -567,6 +888,7 @@ export function obtenerCitasAsesoria() {
 export function guardarCitasAsesoria(citas) {
   const { citas: evaluadas } = evaluarExpiracionUnaHora(citas);
   localStorage.setItem(STORAGE_KEY_CITAS, JSON.stringify(evaluadas));
+  guardarEstadoRemotoTabla("citas", evaluadas);
   emitirCambio();
   return evaluadas;
 }
@@ -579,7 +901,7 @@ export function agendarNuevaCita({
   horaCita,
   modalidad,
   motivo,
-  solicitadaPor, // 'alumno' | 'asesor'
+  solicitadaPor,
   citaReprogramadaId = null,
 }) {
   const actuales = obtenerCitasAsesoria();
@@ -655,7 +977,6 @@ export function marcarCheckAsistenciaCita(citaId, rolQuienMarca = "ambos") {
     if (c.id !== citaId) return c;
 
     const citaMs = obtenerTimestampCita(c.fechaCita, c.horaCita);
-    // Si ya pasó más de 1 hora desde la hora programada, se pone que no se vieron
     if (citaMs && ahoraMs > citaMs + UNA_HORA_MS && c.estatus !== "asistieron") {
       return {
         ...c,
@@ -675,7 +996,6 @@ export function marcarCheckAsistenciaCita(citaId, rolQuienMarca = "ambos") {
   return guardarCitasAsesoria(actuales);
 }
 
-// Función útil para pruebas en vivo: simula que la cita fue hace más de 1 hora sin marcar check
 export function simularPasoDeUnaHoraSinCheck(citaId) {
   const hace75Min = new Date(Date.now() - 75 * 60 * 1000);
   const fecha = hace75Min.toISOString().slice(0, 10);
@@ -694,4 +1014,3 @@ export function simularPasoDeUnaHoraSinCheck(citaId) {
   });
   return guardarCitasAsesoria(actuales);
 }
-

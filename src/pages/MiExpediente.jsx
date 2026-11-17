@@ -1,19 +1,22 @@
 import { useState, useRef, useEffect } from "react";
-import { FileText, Upload, Download, Calendar, FolderOpen } from "lucide-react";
+import { FileText, Upload, Download, Calendar, FolderOpen, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "../context/AuthContext.jsx";
 import PanelCitasAsesoria from "../components/PanelCitasAsesoria.jsx";
 import {
   obtenerDocumentosExpediente,
   subirDocumentoAlumnoDesdeDispositivo,
+  sincronizarDesdeSupabase,
+  obtenerUrlParaAbrirPdf,
 } from "../lib/expedienteYCitas.js";
 
 export default function MiExpediente() {
   const { perfil } = useAuth();
-  const [seccionActiva, setSeccionActiva] = useState("documentos"); // 'documentos' | 'citas'
+  const [seccionActiva, setSeccionActiva] = useState("documentos");
   const [etapaFiltro, setEtapaFiltro] = useState("todas");
   const [documentos, setDocumentos] = useState(() => obtenerDocumentosExpediente());
   const [docIdSubiendo, setDocIdSubiendo] = useState(null);
+  const [sincronizando, setSincronizando] = useState(false);
   const inputArchivoRef = useRef(null);
 
   const nombreAlumno = [perfil?.nombre, perfil?.apellido_paterno, perfil?.apellido_materno]
@@ -21,14 +24,35 @@ export default function MiExpediente() {
     .join(" ");
 
   useEffect(() => {
-    const sincronizar = () => setDocumentos(obtenerDocumentosExpediente());
-    window.addEventListener("posgrados:sync", sincronizar);
-    window.addEventListener("storage", sincronizar);
+    const actualizarLocal = () => setDocumentos(obtenerDocumentosExpediente());
+    window.addEventListener("posgrados:sync", actualizarLocal);
+    window.addEventListener("storage", actualizarLocal);
+
+    // Sincronizar desde Supabase al abrir en esta u otra PC, al enfocar la ventana y cada 8s
+    sincronizarDesdeSupabase(perfil?.id);
+
+    const alEnfocar = () => sincronizarDesdeSupabase(perfil?.id);
+    window.addEventListener("focus", alEnfocar);
+
+    const intervalo = setInterval(() => {
+      sincronizarDesdeSupabase(perfil?.id);
+    }, 8000);
+
     return () => {
-      window.removeEventListener("posgrados:sync", sincronizar);
-      window.removeEventListener("storage", sincronizar);
+      window.removeEventListener("posgrados:sync", actualizarLocal);
+      window.removeEventListener("storage", actualizarLocal);
+      window.removeEventListener("focus", alEnfocar);
+      clearInterval(intervalo);
     };
-  }, []);
+  }, [perfil?.id]);
+
+  const forzarSincronizacionManual = async () => {
+    setSincronizando(true);
+    await sincronizarDesdeSupabase(perfil?.id);
+    setDocumentos(obtenerDocumentosExpediente());
+    setSincronizando(false);
+    toast.success("Expediente sincronizado con el servidor.");
+  };
 
   const abrirSelectorDispositivo = (docId) => {
     setDocIdSubiendo(docId);
@@ -54,21 +78,24 @@ export default function MiExpediente() {
     }
 
     const docObjetivo = documentos.find((d) => d.id === docIdSubiendo);
+    const toastId = toast.loading(`Subiendo "${file.name}" al servidor…`);
     const actualizados = await subirDocumentoAlumnoDesdeDispositivo(
       docIdSubiendo,
       file,
       perfil?.id
     );
     setDocumentos(actualizados);
+    toast.dismiss(toastId);
     toast.success(
-      `Archivo "${file.name}" agregado correctamente para: ${docObjetivo?.nombre || docIdSubiendo}`
+      `Archivo "${file.name}" guardado y sincronizado para: ${docObjetivo?.nombre || docIdSubiendo}`
     );
     setDocIdSubiendo(null);
   };
 
-  const abrirVistaPreviaPdf = (doc) => {
-    if (doc.archivoUrl) {
-      window.open(doc.archivoUrl, "_blank", "noopener,noreferrer");
+  const abrirVistaPreviaPdf = async (doc) => {
+    const url = await obtenerUrlParaAbrirPdf(doc.rutaStorage, doc.archivoUrl);
+    if (url) {
+      window.open(url, "_blank", "noopener,noreferrer");
     } else {
       toast.success(`Abriendo documento: ${doc.archivo}`);
     }
@@ -102,6 +129,15 @@ export default function MiExpediente() {
         </div>
 
         <div className="modulo-acciones">
+          <button
+            type="button"
+            className="boton-secundario"
+            onClick={forzarSincronizacionManual}
+            disabled={sincronizando}
+          >
+            <RefreshCw size={15} aria-hidden="true" />
+            <span>{sincronizando ? "Sincronizando…" : "Sincronizar"}</span>
+          </button>
           <button
             type="button"
             className="boton-secundario"
@@ -217,12 +253,17 @@ export default function MiExpediente() {
                     </td>
                     <td>
                       {doc.archivo ? (
-                        <span className="archivo-adjunto-label">
+                        <button
+                          type="button"
+                          className="archivo-adjunto-btn"
+                          onClick={() => abrirVistaPreviaPdf(doc)}
+                          title="Abrir PDF"
+                        >
                           <FileText size={14} aria-hidden="true" />
                           <span>
                             {doc.archivo} ({doc.tamano})
                           </span>
-                        </span>
+                        </button>
                       ) : (
                         <span className="archivo-adjunto-label archivo-adjunto-label--sin">
                           Sin archivo cargado
