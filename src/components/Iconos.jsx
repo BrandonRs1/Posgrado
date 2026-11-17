@@ -15,6 +15,7 @@ import {
   Megaphone,
   Check,
   Bell,
+  Calendar,
 } from "lucide-react";
 
 // Envoltorio para mantener compatibilidad total con estilos y props existentes
@@ -47,6 +48,7 @@ export const IconBuzon = createIcon(Inbox);
 export const IconAnuncio = createIcon(Megaphone);
 export const IconCheck = createIcon(Check);
 export const IconCampana = createIcon(Bell);
+export const IconCitas = createIcon(Calendar);
 
 // Re-exportamos Lucide React para que cualquier componente pueda importar iconos adicionales
 export * from "lucide-react";

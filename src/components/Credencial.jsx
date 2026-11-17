@@ -3,7 +3,7 @@ import { supabase } from "../lib/supabase.js";
 import { useAuth } from "../context/AuthContext.jsx";
 import { etiquetaRol } from "../lib/permisos.js";
 import { prepararFoto } from "../lib/foto.js";
-import { Camera, QrCode, ShieldCheck, CheckCircle2 } from "lucide-react";
+import { Camera, QrCode } from "lucide-react";
 import "../credencial.css";
 
 const iniciales = (p) => ((p.nombre?.[0] ?? "") + (p.apellido_paterno?.[0] ?? "")).toUpperCase();
@@ -93,13 +93,13 @@ export default function Credencial() {
 
   return (
     <article className="credencial" aria-label="Credencial Institucional">
-      {/* Cinta reflectante y sello superior */}
+      {/* Encabezado institucional */}
       <div className="credencial__banda">
         <div className="credencial__institucion-wrapper">
-          <ShieldCheck size={16} />
-          <span className="credencial__institucion">Evaluación de Posgrados</span>
+          <span className="credencial__institucion">Posgrados ITM</span>
+          <span className="credencial__subinstitucion">Tecnológico Nacional de México</span>
         </div>
-        <span className="credencial__tipo-credencial">Digital ID</span>
+        <span className="credencial__tipo-credencial">Credencial digital</span>
       </div>
 
       <div className="credencial__cuerpo">
@@ -125,8 +125,9 @@ export default function Credencial() {
               onClick={() => inputRef.current?.click()}
               disabled={subiendo}
               title="Actualizar foto de perfil"
+              aria-label="Actualizar foto de perfil"
             >
-              <Camera size={13} />
+              <Camera size={14} aria-hidden="true" />
             </button>
           </div>
 
@@ -153,7 +154,6 @@ export default function Credencial() {
           <div className="credencial__identidad-header">
             <h2 className="credencial__nombre">{nombreCompleto}</h2>
             <div className="credencial__rol-chip">
-              <CheckCircle2 size={12} />
               <span>{etiquetaRol(perfil)}</span>
             </div>
           </div>
@@ -169,17 +169,17 @@ export default function Credencial() {
         </div>
       </div>
 
-      {/* Pie de autenticación con código de seguridad institucional */}
+      {/* Pie con folio y vigencia */}
       <div className="credencial__pie">
         <div className="credencial__qr-block">
-          <QrCode size={28} className="credencial__qr-icon" />
+          <QrCode size={32} strokeWidth={1.5} className="credencial__qr-icon" aria-hidden="true" />
           <div className="credencial__seguridad-meta">
-            <span className="credencial__folio">ID: POS-{folioCorto}</span>
-            <span className="credencial__vigencia">Válido Ciclo 2026-2027</span>
+            <span className="credencial__folio">POS-{folioCorto}</span>
+            <span className="credencial__vigencia">Vigente · ciclo 2026–2027</span>
           </div>
         </div>
         <div className="credencial__holograma">
-          <span>OFICIAL</span>
+          <span>Oficial</span>
         </div>
       </div>
 

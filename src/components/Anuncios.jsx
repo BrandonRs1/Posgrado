@@ -136,9 +136,9 @@ export default function Anuncios() {
             <IconAnuncio />
           </div>
           <div>
-            <h2 className="panel-actividad__titulo">Anuncios Oficiales</h2>
+            <h2 className="panel-actividad__titulo">Anuncios</h2>
             <p className="panel-actividad__subtitulo">
-              Avisos y comunicados emitidos por la administración
+              Avisos y convocatorias publicados por la administración
             </p>
           </div>
         </div>
@@ -189,6 +189,15 @@ export default function Anuncios() {
                   key={a.id}
                   className={`anuncio-tarjeta ${a.importante ? "anuncio-tarjeta--importante" : ""}`}
                   onClick={() => toggleExpandir(a.id)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      toggleExpandir(a.id);
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  aria-expanded={expandido}
                 >
                   <div className="anuncio-tarjeta__encabezado">
                     <div className="anuncio-tarjeta__etiquetas">
@@ -240,4 +249,3 @@ export default function Anuncios() {
     </article>
   );
 }
-

@@ -1,145 +1,94 @@
-import { useState } from "react";
-import {
-  Download,
-  Users,
-  Award,
-  TrendingUp,
-  FileSpreadsheet,
-  CheckCircle,
-  Clock,
-  Star,
-  Check,
-} from "lucide-react";
+import { Download, FileSpreadsheet } from "lucide-react";
 import { toast } from "sonner";
 
-const METRICAS_11_VERDES = [
+const METRICAS_INSTITUCIONALES = [
   {
-    codigo: "IND-V01",
-    dimension: "Eficiencia operativa",
-    indicador:
-      "Número de proyectos de investigación científica, desarrollo tecnológico e innovación financiados",
+    codigo: "IND-01",
+    dimension: "Investigación",
+    indicador: "Proyectos de investigación científica y tecnológica financiados",
     valorActual: "12 proyectos",
     cumplimiento: 92,
-    vAiken: "0.650",
   },
   {
-    codigo: "IND-V02",
-    dimension: "Eficiencia operativa",
-    indicador:
-      "Número de académicos que participan en redes de investigación, científica y tecnológica (Posgrado)",
+    codigo: "IND-02",
+    dimension: "Investigación",
+    indicador: "Académicos que participan en redes de investigación",
     valorActual: "14 académicos",
     cumplimiento: 88,
-    vAiken: "0.700",
   },
   {
-    codigo: "IND-V03",
-    dimension: "Toma de decisiones",
-    indicador: "Académicos participantes en convocatorias en materia de investigación (Posgrado)",
+    codigo: "IND-03",
+    dimension: "Investigación",
+    indicador: "Académicos participantes en convocatorias de investigación",
     valorActual: "15 académicos",
     cumplimiento: 94,
-    vAiken: "0.750",
   },
   {
-    codigo: "IND-V04",
-    dimension: "Toma de decisiones",
-    indicador: "Estudiantes participantes en convocatorias en materia de investigación (Posgrado)",
+    codigo: "IND-04",
+    dimension: "Estudiantes",
+    indicador: "Estudiantes participantes en convocatorias científicas",
     valorActual: "28 estudiantes",
     cumplimiento: 85,
-    vAiken: "0.750",
   },
   {
-    codigo: "IND-V05",
-    dimension: "Toma de decisiones",
-    indicador: "Número de estudiantes beneficiados con una beca (Posgrado)",
-    valorActual: "34 becarios SECIHTI",
+    codigo: "IND-05",
+    dimension: "Becas",
+    indicador: "Estudiantes beneficiados con beca de posgrado",
+    valorActual: "34 becarios",
     cumplimiento: 96,
-    vAiken: "0.825",
   },
   {
-    codigo: "IND-V06",
-    dimension: "Toma de decisiones",
-    indicador: "Tasa de variación de académicos registrados en el SNI",
+    codigo: "IND-06",
+    dimension: "Planta Docente",
+    indicador: "Variación de académicos registrados en el SNI",
     valorActual: "+14.3% (16 en SNI)",
     cumplimiento: 95,
-    vAiken: "0.850",
   },
   {
-    codigo: "IND-V07",
-    dimension: "Toma de decisiones",
-    indicador: "Número de estudiantes de posgrado que participan en proyectos de investigación",
-    valorActual: "36 estudiantes (100%)",
+    codigo: "IND-07",
+    dimension: "Estudiantes",
+    indicador: "Estudiantes incorporados en proyectos de investigación",
+    valorActual: "36 estudiantes",
     cumplimiento: 100,
-    vAiken: "0.675",
   },
   {
-    codigo: "IND-V08",
-    dimension: "Toma de decisiones",
-    indicador:
-      "Número de artículos de investigación de académicos publicados en revistas indexadas nacionales e internacionales como parte del TecNM",
-    valorActual: "24 artículos JCR/Scopus",
+    codigo: "IND-08",
+    dimension: "Productividad",
+    indicador: "Artículos publicados en revistas indexadas",
+    valorActual: "24 artículos",
     cumplimiento: 90,
-    vAiken: "0.825",
   },
   {
-    codigo: "IND-V09",
-    dimension: "Toma de decisiones",
-    indicador:
-      "Número de estudiantes que participan en programas de intercambio académico nacional e internacional (Posgrado)",
-    valorActual: "7 estudiantes en estancia",
+    codigo: "IND-09",
+    dimension: "Movilidad",
+    indicador: "Estudiantes en programas de intercambio o estancia",
+    valorActual: "7 estudiantes",
     cumplimiento: 78,
-    vAiken: "0.700",
   },
   {
-    codigo: "IND-V10",
-    dimension: "Toma de decisiones",
-    indicador:
-      "Porcentaje de proyectos de investigación con enfoque en inclusión, igualdad y desarrollo sustentable",
+    codigo: "IND-10",
+    dimension: "Sustentabilidad",
+    indicador: "Proyectos con enfoque en inclusión y sustentabilidad",
     valorActual: "75.0% (9 de 12)",
     cumplimiento: 75,
-    vAiken: "0.525",
   },
   {
-    codigo: "IND-V11",
-    dimension: "Mejora continua",
-    indicador: "Número de nuevos programas de posgrado autorizados",
-    valorActual: "6 programas activos ITM",
+    codigo: "IND-11",
+    dimension: "Oferta Educativa",
+    indicador: "Programas de posgrado activos",
+    valorActual: "6 programas",
     cumplimiento: 100,
-    vAiken: "0.525",
   },
 ];
 
 export default function Reportes() {
-  const [encuestaModal, setEncuestaModal] = useState(false);
-  const [likertTransparencia, setLikertTransparencia] = useState(5);
-  const [likertUsabilidad, setLikertUsabilidad] = useState(5);
-  const [consentimiento, setConsentimiento] = useState(true);
-
-  const enviarEncuesta = (e) => {
-    e.preventDefault();
-    toast.success(
-      "Evaluación de Transparencia y Usabilidad (Escala Likert 1–5) registrada con Consentimiento Informado."
-    );
-    setEncuestaModal(false);
-  };
-
   return (
-    <section className="modulo-seccion seccion-fade">
-      {/* Cabecera del Módulo */}
+    <section className="modulo-seccion">
       <div className="modulo-header">
         <div className="modulo-header__info">
-          <div className="modulo-breadcrumbs">
-            <span>DEPI • Instituto Tecnológico de Morelia</span>
-            <span className="modulo-breadcrumbs__sep">/</span>
-            <span className="modulo-breadcrumbs__actual">
-              11 Indicadores Verdes y Operacionalización
-            </span>
-          </div>
-          <h1 className="pagina__titulo">
-            Tablero de Indicadores de Posgrado y Acreditación SECIHTI
-          </h1>
+          <h1 className="pagina__titulo">Reportes e Indicadores</h1>
           <p className="pagina__desc">
-            Monitoreo en tiempo real de los <strong>11 indicadores subrayados en verde</strong>,
-            tiempos de informes de acreditación, eficiencia terminal, empleabilidad y transparencia.
+            Seguimiento de indicadores escolares, matrícula, becas y productividad académica.
           </p>
         </div>
 
@@ -147,139 +96,82 @@ export default function Reportes() {
           <button
             type="button"
             className="boton-secundario"
-            onClick={() => setEncuestaModal(true)}
+            onClick={() => toast.success("Reporte exportado en formato Excel.")}
           >
-            <Star size={16} />
-            <span>Encuesta Transparencia y Usabilidad (Likert 1–5)</span>
-          </button>
-          <button
-            type="button"
-            className="boton-secundario"
-            onClick={() =>
-              toast.success("Matriz de los 11 indicadores verdes exportada a Excel.")
-            }
-          >
-            <FileSpreadsheet size={16} />
+            <FileSpreadsheet size={16} aria-hidden="true" />
             <span>Exportar Excel</span>
           </button>
           <button
             type="button"
             className="boton-principal"
-            onClick={() =>
-              toast.success("Informe de Acreditación SECIHTI / SNP generado en tiempo (0 días de retraso).")
-            }
+            onClick={() => toast.success("Informe institucional generado en PDF.")}
           >
-            <Download size={16} />
-            <span>Generar Informe SECIHTI PDF</span>
+            <Download size={16} aria-hidden="true" />
+            <span>Descargar informe PDF</span>
           </button>
         </div>
       </div>
 
-      {/* 4 KPIs de las Variables Operacionalizadas (blablabla.docx) */}
-      <div className="inicio-kpis">
-        <div className="kpi-card">
-          <div className="kpi-card__icono kpi-card__icono--azul">
-            <Clock size={20} />
-          </div>
-          <div className="kpi-card__info">
-            <span className="kpi-card__label">Tiempo Preparación Informes</span>
-            <span className="kpi-card__valor">3.5 días</span>
-            <span className="kpi-card__subtext">0% retraso en acreditación (En tiempo: Sí)</span>
-          </div>
+      {/* Resumen numérico en Azul y Blanco */}
+      <div className="modulo-kpis-fila">
+        <div className="modulo-kpi-item">
+          <span className="modulo-kpi-item__label">Eficiencia terminal</span>
+          <span className="modulo-kpi-item__valor">91.4%</span>
+          <span className="modulo-kpi-item__sub">Promedio por cohorte</span>
         </div>
-
-        <div className="kpi-card">
-          <div className="kpi-card__icono kpi-card__icono--verde">
-            <TrendingUp size={20} />
-          </div>
-          <div className="kpi-card__info">
-            <span className="kpi-card__label">Eficiencia Terminal</span>
-            <span className="kpi-card__valor">91.4%</span>
-            <span className="kpi-card__subtext">Graduación por cohorte generacional</span>
-          </div>
+        <div className="modulo-kpi-item">
+          <span className="modulo-kpi-item__label">Alumnos con beca</span>
+          <span className="modulo-kpi-item__valor">34</span>
+          <span className="modulo-kpi-item__sub">96% de cobertura</span>
         </div>
-
-        <div className="kpi-card">
-          <div className="kpi-card__icono kpi-card__icono--morado">
-            <Users size={20} />
-          </div>
-          <div className="kpi-card__info">
-            <span className="kpi-card__label">Empleabilidad de Egresados</span>
-            <span className="kpi-card__valor">88.5%</span>
-            <span className="kpi-card__subtext">Trabajan en su área metalúrgica/industrial</span>
-          </div>
+        <div className="modulo-kpi-item">
+          <span className="modulo-kpi-item__label">Docentes en SNI</span>
+          <span className="modulo-kpi-item__valor">16</span>
+          <span className="modulo-kpi-item__sub">Núcleo académico</span>
         </div>
-
-        <div className="kpi-card">
-          <div className="kpi-card__icono kpi-card__icono--ambar">
-            <Award size={20} />
-          </div>
-          <div className="kpi-card__info">
-            <span className="kpi-card__label">Transparencia y Usabilidad</span>
-            <span className="kpi-card__valor">4.8 / 5.0</span>
-            <span className="kpi-card__subtext">Escala Likert (Alumnos, Docentes, Coord.)</span>
-          </div>
+        <div className="modulo-kpi-item">
+          <span className="modulo-kpi-item__label">Programas activos</span>
+          <span className="modulo-kpi-item__valor">6</span>
+          <span className="modulo-kpi-item__sub">5 maestrías · 1 doctorado</span>
         </div>
       </div>
 
-      {/* Tabla Consolidada de los 11 Indicadores Subrayados en Verde */}
-      <div className="reporte-panel" style={{ marginBottom: "24px" }}>
-        <div className="reporte-panel__header">
-          <div>
-            <h3 className="reporte-panel__titulo">
-              Seguimiento de los 11 Indicadores Validados (Subrayados en Verde)
-            </h3>
-            <p className="pagina__desc" style={{ marginTop: "4px" }}>
-              Indicadores seleccionados de las dimensiones: <strong>Eficiencia Operativa (2)</strong>,{" "}
-              <strong>Toma de Decisiones (8)</strong> y <strong>Mejora Continua (1)</strong>.
-            </p>
-          </div>
-          <span className="programa-badge programa-badge--verde">11 Indicadores en Sistema</span>
-        </div>
-
-        <div className="table-responsive" style={{ marginTop: "12px" }}>
-          <table className="styled-table styled-table--elevated">
+      {/* Tabla de Indicadores */}
+      <div className="modulo-tabla-card">
+        <div className="table-responsive">
+          <table className="styled-table">
             <thead>
               <tr>
-                <th>Código</th>
-                <th>Dimensión</th>
-                <th className="text-left">Indicador Subrayado en Verde</th>
-                <th>V de Aiken</th>
-                <th>Valor en Sistema</th>
-                <th>Avance de Meta</th>
+                <th>Clave</th>
+                <th>Categoría</th>
+                <th className="text-left">Indicador</th>
+                <th>Resultado</th>
+                <th>Cumplimiento</th>
               </tr>
             </thead>
             <tbody>
-              {METRICAS_11_VERDES.map((m) => (
+              {METRICAS_INSTITUCIONALES.map((m) => (
                 <tr key={m.codigo}>
                   <td>
                     <span className="badge-codigo">{m.codigo}</span>
                   </td>
                   <td>
-                    <span className="programa-badge programa-badge--verde">{m.dimension}</span>
+                    <span className="programa-badge programa-badge--suave">{m.dimension}</span>
                   </td>
                   <td className="text-left">
                     <span className="nombre-persona">{m.indicador}</span>
                   </td>
                   <td>
-                    <strong>{m.vAiken}</strong>
-                  </td>
-                  <td>
                     <span className="calificacion-pill">{m.valorActual}</span>
                   </td>
-                  <td style={{ minWidth: "150px" }}>
+                  <td style={{ minWidth: "160px" }}>
                     <div className="reporte-barra-track">
                       <div
                         className="reporte-barra-fill"
-                        style={{
-                          width: `${m.cumplimiento}%`,
-                          backgroundColor: "#16a34a",
-                        }}
+                        style={{ width: `${m.cumplimiento}%` }}
                       />
                     </div>
-                    <span style={{ fontSize: "0.75rem", color: "var(--texto-suave)" }}>
-                      {m.cumplimiento}% de meta anual
-                    </span>
+                    <span className="fecha-suave">{m.cumplimiento}% de la meta</span>
                   </td>
                 </tr>
               ))}
@@ -287,114 +179,6 @@ export default function Reportes() {
           </table>
         </div>
       </div>
-
-      {/* Modal de Encuesta de Transparencia y Usabilidad (Escala Likert 1–5) */}
-      {encuestaModal && (
-        <div className="modal-overlay" onClick={() => setEncuestaModal(false)}>
-          <div className="modal-contenido" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <div>
-                <span className="programa-card__codigo">INSTRUMENTO METODOLÓGICO • ITM</span>
-                <h3 className="modal-titulo">
-                  Cuestionario de Transparencia y Usabilidad (Escala Likert 1–5)
-                </h3>
-              </div>
-              <button
-                type="button"
-                className="boton-icono"
-                onClick={() => setEncuestaModal(false)}
-              >
-                ✕
-              </button>
-            </div>
-
-            <form onSubmit={enviarEncuesta} className="modal-cuerpo">
-              <div className="campo">
-                <span>
-                  1. Nivel de transparencia percibida en la gestión de trámites y evaluaciones (1 =
-                  Muy bajo, 5 = Muy alto):
-                </span>
-                <select
-                  value={likertTransparencia}
-                  onChange={(e) => setLikertTransparencia(Number(e.target.value))}
-                  style={{
-                    padding: "10px",
-                    borderRadius: "8px",
-                    border: "1px solid var(--borde)",
-                    fontFamily: "var(--fuente)",
-                  }}
-                >
-                  <option value={5}>5 — Totalmente transparente y trazable</option>
-                  <option value={4}>4 — Transparente</option>
-                  <option value={3}>3 — Neutral / Regular</option>
-                  <option value={2}>2 — Poco transparente</option>
-                  <option value={1}>1 — Nada transparente</option>
-                </select>
-              </div>
-
-              <div className="campo" style={{ marginTop: "14px" }}>
-                <span>
-                  2. Satisfacción y usabilidad de la plataforma web (1 = Muy insatisfecho, 5 = Muy
-                  satisfecho):
-                </span>
-                <select
-                  value={likertUsabilidad}
-                  onChange={(e) => setLikertUsabilidad(Number(e.target.value))}
-                  style={{
-                    padding: "10px",
-                    borderRadius: "8px",
-                    border: "1px solid var(--borde)",
-                    fontFamily: "var(--fuente)",
-                  }}
-                >
-                  <option value={5}>5 — Muy fácil de usar y reduce tiempos operativos</option>
-                  <option value={4}>4 — Fácil de usar</option>
-                  <option value={3}>3 — Aceptable</option>
-                  <option value={2}>2 — Difícil de usar</option>
-                  <option value={1}>1 — Muy difícil de usar</option>
-                </select>
-              </div>
-
-              <label
-                style={{
-                  display: "flex",
-                  alignItems: "flex-start",
-                  gap: "8px",
-                  marginTop: "16px",
-                  fontSize: "0.85rem",
-                  color: "var(--texto-suave)",
-                }}
-              >
-                <input
-                  type="checkbox"
-                  checked={consentimiento}
-                  onChange={(e) => setConsentimiento(e.target.checked)}
-                  required
-                />
-                <span>
-                  <strong>Consentimiento Informado:</strong> Autorizo el tratamiento confidencial de
-                  mis respuestas y datos académicos exclusivamente para fines de mejora continua y
-                  acreditación de los programas de posgrado del ITM.
-                </span>
-              </label>
-
-              <div className="modal-footer" style={{ marginTop: "20px" }}>
-                <button type="submit" className="boton-principal">
-                  <Check size={16} />
-                  <span>Registrar Evaluación Likert</span>
-                </button>
-                <button
-                  type="button"
-                  className="boton-secundario"
-                  onClick={() => setEncuestaModal(false)}
-                >
-                  Cancelar
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </section>
   );
 }

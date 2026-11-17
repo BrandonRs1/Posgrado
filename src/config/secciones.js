@@ -7,6 +7,7 @@ import {
   IconConfiguracion,
   IconExpediente,
   IconCursos,
+  IconCitas,
 } from "../components/Iconos.jsx";
 import {
   esAdministrativo,
@@ -23,6 +24,7 @@ import Evaluaciones from "../pages/Evaluaciones.jsx";
 import Criterios from "../pages/Criterios.jsx";
 import Reportes from "../pages/Reportes.jsx";
 import Configuracion from "../pages/Configuracion.jsx";
+import CitasAsesoria from "../pages/CitasAsesoria.jsx";
 
 // ÚNICO lugar donde se decide quién ve qué sección.
 // Para agregar una página: crea su archivo en /pages, impórtalo aquí y agrega una línea.
@@ -30,6 +32,7 @@ import Configuracion from "../pages/Configuracion.jsx";
 export const secciones = [
   { ruta: "/", nombre: "Inicio", icono: IconInicio, elemento: Inicio, permiso: () => true },
   { ruta: "/mi-expediente", nombre: "Mi expediente", icono: IconExpediente, elemento: MiExpediente, permiso: esAlumno },
+  { ruta: "/citas", nombre: "Citas de asesoría", icono: IconCitas, elemento: CitasAsesoria, permiso: (p) => esAlumno(p) || esProfesor(p) || esAdministrativo(p) },
   { ruta: "/mis-cursos", nombre: "Mis cursos", icono: IconCursos, elemento: MisCursos, permiso: esProfesorPropedeutico },
   { ruta: "/programas", nombre: "Programas", icono: IconProgramas, elemento: Programas, permiso: esAdministrativo },
   { ruta: "/evaluaciones", nombre: "Evaluaciones", icono: IconEvaluaciones, elemento: Evaluaciones, permiso: (p) => esAdministrativo(p) || esProfesor(p) },

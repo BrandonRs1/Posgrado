@@ -1,7 +1,15 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase.js";
 import { useAuth } from "../context/AuthContext.jsx";
 import { IconBuzon, IconCheck } from "./Iconos.jsx";
+import { Check, X, CalendarPlus } from "lucide-react";
+import { toast } from "sonner";
+import {
+  obtenerCitasAsesoria,
+  aceptarCitaAsesoria,
+  rechazarCitaAsesoria,
+} from "../lib/expedienteYCitas.js";
 
 // Mensajes de demostración en caso de que la tabla aún no se haya ejecutado en Supabase
 const DEMO_MENSAJES = [
@@ -41,18 +49,76 @@ function formatearFecha(isoString) {
   }
 }
 
+function convertirCitasAMensajesBuzon(citas) {
+  return citas.slice(0, 4).map((c) => {
+    const remitenteEsAlumno = c.solicitadaPor === "alumno";
+    let asunto = `Solicitud de Cita de Asesoría (${c.fechaCita} · ${c.horaCita} hrs)`;
+    let detalle = `Tema: ${c.motivo} · Modalidad: ${c.modalidad}.`;
+
+    if (c.estatus === "confirmada") {
+      asunto = `Cita Confirmada (${c.fechaCita} · ${c.horaCita} hrs)`;
+      detalle = `La cita entre ${c.alumnoNombre} y ${c.asesorNombre} fue aceptada. Recuerda marcar el Check de asistencia dentro de 1 hora.`;
+    } else if (c.estatus === "rechazada") {
+      asunto = `Cita Rechazada (${c.fechaCita} · ${c.horaCita} hrs) — Motivo registrado`;
+      detalle = `Razón por la que no se pudo: "${c.motivoRechazo || "Sin especificar"}". Puedes agendar otro día.`;
+    } else if (c.estatus === "cancelada") {
+      asunto = `Cita Cancelada por ${c.canceladaPor || "Usuario"} (${c.fechaCita})`;
+      detalle = `Razón de cancelación: "${c.motivoCancelacion || "Sin especificar"}".`;
+    } else if (c.estatus === "no_se_vieron") {
+      asunto = `Inasistencia de Cita (${c.fechaCita} · ${c.horaCita} hrs)`;
+      detalle = `Pasó más de 1 hora sin marcar el Check de asistencia: se registró que no se vieron.`;
+    }
+
+    return {
+      id: `notif-${c.id}`,
+      citaId: c.id,
+      citaEstatus: c.estatus,
+      asunto,
+      mensaje: detalle,
+      remitente_nombre: remitenteEsAlumno ? c.alumnoNombre : c.asesorNombre,
+      remitente_rol: remitenteEsAlumno ? "Alumno" : "Asesor de Tesis",
+      leido: c.estatus !== "pendiente",
+      creado_en: c.fechaAgendadaEn,
+    };
+  });
+}
+
 export default function Buzon() {
   const { perfil } = useAuth();
-  const [mensajes, setMensajes] = useState([]);
+  const navigate = useNavigate();
+  const [mensajesBase, setMensajesBase] = useState([]);
+  const [citasNotif, setCitasNotif] = useState(() =>
+    convertirCitasAMensajesBuzon(obtenerCitasAsesoria())
+  );
   const [cargando, setCargando] = useState(true);
   const [mensajeAbierto, setMensajeAbierto] = useState(null);
   const [filtroNoLeidos, setFiltroNoLeidos] = useState(false);
+
+  // Estado rápido para rechazar desde el buzón indicando la razón
+  const [citaRechazoBuzonId, setCitaRechazoBuzonId] = useState(null);
+  const [razonRechazoBuzon, setRazonRechazoBuzon] = useState("");
+
+  useEffect(() => {
+    const syncCitas = () => {
+      setCitasNotif(convertirCitasAMensajesBuzon(obtenerCitasAsesoria()));
+    };
+    window.addEventListener("posgrados:sync", syncCitas);
+    window.addEventListener("storage", syncCitas);
+    return () => {
+      window.removeEventListener("posgrados:sync", syncCitas);
+      window.removeEventListener("storage", syncCitas);
+    };
+  }, []);
 
   useEffect(() => {
     let cancelado = false;
 
     async function cargarMensajes() {
-      if (!perfil?.id) return;
+      if (!perfil?.id) {
+        setMensajesBase(DEMO_MENSAJES);
+        setCargando(false);
+        return;
+      }
       setCargando(true);
       try {
         const { data, error } = await supabase
@@ -65,8 +131,7 @@ export default function Buzon() {
           .order("creado_en", { ascending: false });
 
         if (error || !data || data.length === 0) {
-          // Si no hay datos o la tabla no existe en la BD aún, mostramos los iniciales
-          if (!cancelado) setMensajes(DEMO_MENSAJES);
+          if (!cancelado) setMensajesBase(DEMO_MENSAJES);
         } else {
           const formateados = data.map((m) => ({
             id: m.id,
@@ -80,10 +145,10 @@ export default function Buzon() {
             remitente_rol:
               m.remitente?.tipo === "profesor" ? "Profesor" : "Administrativo",
           }));
-          if (!cancelado) setMensajes(formateados);
+          if (!cancelado) setMensajesBase(formateados);
         }
       } catch {
-        if (!cancelado) setMensajes(DEMO_MENSAJES);
+        if (!cancelado) setMensajesBase(DEMO_MENSAJES);
       } finally {
         if (!cancelado) setCargando(false);
       }
@@ -95,13 +160,14 @@ export default function Buzon() {
     };
   }, [perfil?.id]);
 
+  const mensajes = [...citasNotif, ...mensajesBase];
+
   const marcarComoLeido = async (id) => {
-    setMensajes((prev) =>
+    setMensajesBase((prev) =>
       prev.map((m) => (m.id === id ? { ...m, leido: true } : m))
     );
 
-    // Si es un id numérico de BD, actualizamos en Supabase
-    if (typeof id === "number" || (!String(id).startsWith("demo-") && !isNaN(Number(id)))) {
+    if (typeof id === "number" || (!String(id).startsWith("demo-") && !String(id).startsWith("notif-") && !isNaN(Number(id)))) {
       try {
         await supabase
           .from("mensajes_buzon")
@@ -124,6 +190,30 @@ export default function Buzon() {
     }
   };
 
+  const aceptarDesdeBuzon = (e, citaId) => {
+    e.stopPropagation();
+    aceptarCitaAsesoria(citaId);
+    toast.success("Cita de asesoría aceptada.");
+  };
+
+  const guardarRechazoDesdeBuzon = (e, citaId) => {
+    e.stopPropagation();
+    if (!razonRechazoBuzon.trim()) {
+      toast.error("Por favor escribe la razón de por qué no puedes asistir.");
+      return;
+    }
+    const rol = perfil?.tipo === "alumno" ? "Alumno" : "Asesor";
+    rechazarCitaAsesoria(citaId, razonRechazoBuzon, rol);
+    setCitaRechazoBuzonId(null);
+    setRazonRechazoBuzon("");
+    toast.info("Cita rechazada con motivo registrado.");
+  };
+
+  const irAAgendarOtroDia = (e) => {
+    e.stopPropagation();
+    navigate("/citas");
+  };
+
   const noLeidosCount = mensajes.filter((m) => !m.leido).length;
   const mensajesMostrados = filtroNoLeidos
     ? mensajes.filter((m) => !m.leido)
@@ -137,9 +227,9 @@ export default function Buzon() {
             <IconBuzon />
           </div>
           <div>
-            <h2 className="panel-actividad__titulo">Buzón de Mensajes</h2>
+            <h2 className="panel-actividad__titulo">Buzón y Notificaciones de Citas</h2>
             <p className="panel-actividad__subtitulo">
-              Comunicaciones directas de docentes y coordinación
+              Solicitudes de citas de asesoría y mensajes directos
             </p>
           </div>
         </div>
@@ -154,6 +244,7 @@ export default function Buzon() {
             type="button"
             className={`panel-filtro-btn ${filtroNoLeidos ? "panel-filtro-btn--activo" : ""}`}
             onClick={() => setFiltroNoLeidos(!filtroNoLeidos)}
+            aria-pressed={filtroNoLeidos}
           >
             {filtroNoLeidos ? "Ver todos" : "Solo no leídos"}
           </button>
@@ -179,8 +270,17 @@ export default function Buzon() {
                   key={m.id}
                   className={`mensaje-item ${!m.leido ? "mensaje-item--no-leido" : ""} ${estaAbierto ? "mensaje-item--abierto" : ""}`}
                   onClick={() => seleccionarMensaje(m)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      seleccionarMensaje(m);
+                    }
+                  }}
+                  tabIndex={0}
+                  aria-expanded={estaAbierto}
                 >
                   <div className="mensaje-item__cabecera">
+                    {!m.leido && <span className="mensaje-item__punto" aria-label="No leído" />}
                     <div className="mensaje-item__remitente-info">
                       <span className="mensaje-item__nombre">{m.remitente_nombre}</span>
                       <span className="mensaje-item__rol-badge">{m.remitente_rol}</span>
@@ -193,14 +293,84 @@ export default function Buzon() {
                   <h3 className="mensaje-item__asunto">{m.asunto}</h3>
 
                   <p className="mensaje-item__extracto">
-                    {estaAbierto ? m.mensaje : `${m.mensaje.slice(0, 95)}…`}
+                    {estaAbierto ? m.mensaje : `${m.mensaje.slice(0, 110)}…`}
                   </p>
+
+                  {/* Botones rápidos de notificación de cita (Aceptar / Rechazar con razón / Agendar otro día) */}
+                  {m.citaId && m.citaEstatus === "pendiente" && (
+                    <div
+                      className="buzon-cita-acciones"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <button
+                        type="button"
+                        className="boton-principal boton-principal--sm"
+                        onClick={(e) => aceptarDesdeBuzon(e, m.citaId)}
+                      >
+                        <Check size={13} aria-hidden="true" />
+                        <span>Aceptar cita</span>
+                      </button>
+                      <button
+                        type="button"
+                        className="boton-secundario boton-secundario--sm"
+                        onClick={() => setCitaRechazoBuzonId(m.citaId)}
+                      >
+                        <X size={13} aria-hidden="true" />
+                        <span>Rechazar</span>
+                      </button>
+                      <button
+                        type="button"
+                        className="boton-secundario boton-secundario--sm"
+                        onClick={irAAgendarOtroDia}
+                      >
+                        <CalendarPlus size={13} aria-hidden="true" />
+                        <span>Agendar otro día</span>
+                      </button>
+
+                      {citaRechazoBuzonId === m.citaId && (
+                        <div className="buzon-rechazo-inline">
+                          <input
+                            type="text"
+                            placeholder="Escribe la razón del rechazo…"
+                            value={razonRechazoBuzon}
+                            onChange={(e) => setRazonRechazoBuzon(e.target.value)}
+                            className="modulo-buscar__input"
+                          />
+                          <button
+                            type="button"
+                            className="boton-principal boton-principal--sm"
+                            onClick={(e) => guardarRechazoDesdeBuzon(e, m.citaId)}
+                          >
+                            Confirmar rechazo
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {m.citaId &&
+                    (m.citaEstatus === "rechazada" ||
+                      m.citaEstatus === "cancelada" ||
+                      m.citaEstatus === "no_se_vieron") && (
+                      <div
+                        className="buzon-cita-acciones"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <button
+                          type="button"
+                          className="boton-secundario boton-secundario--sm"
+                          onClick={irAAgendarOtroDia}
+                        >
+                          <CalendarPlus size={13} aria-hidden="true" />
+                          <span>Agendar otro día</span>
+                        </button>
+                      </div>
+                    )}
 
                   <div className="mensaje-item__pie">
                     <span className="mensaje-item__ver-mas">
-                      {estaAbierto ? "Mostrar menos" : "Leer mensaje completo"}
+                      {estaAbierto ? "Mostrar menos" : "Leer mensaje"}
                     </span>
-                    {!m.leido && <span className="mensaje-item__punto" aria-label="Mensaje no leído" />}
                   </div>
                 </li>
               );
@@ -211,4 +381,3 @@ export default function Buzon() {
     </article>
   );
 }
-

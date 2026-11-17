@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext.jsx";
 import BotonTema from "../components/BotonTema.jsx";
-import { Mail, Lock, Eye, EyeOff, GraduationCap, ShieldCheck, ArrowRight } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, GraduationCap, ArrowRight } from "lucide-react";
 
 // Busca la imagen en src/assets/logo_login.(png|jpg|jpeg|svg|webp)
 const imagenes = import.meta.glob("../assets/logo_login.{png,jpg,jpeg,svg,webp}", {
@@ -43,60 +43,44 @@ export default function Login() {
       </div>
 
       <div className="login__tarjeta">
-        {/* Lado Institucional / Branding */}
+        {/* Lado Institucional */}
         <div className="login__imagen">
-          {logoLogin ? (
-            <div className="login__branding">
+          <div className="login__branding">
+            {logoLogin ? (
               <img className="login__logo" src={logoLogin} alt="Logotipo institucional" />
-              <div className="login__bienvenida">
-                <h2 className="login__bienvenida-titulo">Bienvenido</h2>
-                <p className="login__bienvenida-sub">Sistema de Evaluación y Gestión de Posgrados</p>
+            ) : (
+              <div className="login__emblema" aria-hidden="true">
+                <GraduationCap size={28} strokeWidth={1.6} />
               </div>
+            )}
+            <div className="login__bienvenida">
+              <p className="login__kicker login__kicker--claro">División de Estudios de Posgrado</p>
+              <h2 className="login__bienvenida-titulo">Sistema de Evaluación y Gestión de Posgrados</h2>
+              <ul className="login__lista">
+                <li>Expediente digital por etapas</li>
+                <li>Ponderación, dictámenes y titulación</li>
+                <li>Buzón y anuncios oficiales</li>
+              </ul>
             </div>
-          ) : (
-            <div className="login__branding">
-              {/* Emblema Institucional de Alto Nivel */}
-              <div className="login__emblema">
-                <div className="login__emblema-anillo">
-                  <div className="login__emblema-icono">
-                    <GraduationCap size={44} strokeWidth={1.7} />
-                  </div>
-                </div>
-                <div className="login__emblema-tag">
-                  <ShieldCheck size={14} />
-                  <span>Portal Oficial Verificado</span>
-                </div>
-              </div>
-              <div className="login__bienvenida">
-                <h2 className="login__bienvenida-titulo">Posgrados Institucionales</h2>
-                <p className="login__bienvenida-sub">
-                  Plataforma integral de evaluación académica, expedientes y gestión de posgrados
-                </p>
-              </div>
-            </div>
-          )}
-
-          <div className="login__seguridad-pie">
-            <span className="login__seguridad-dot" />
-            <span>Acceso Seguro • Encriptación 256-bit</span>
           </div>
+
+          <p className="login__seguridad-pie">Instituto Tecnológico de Morelia · TecNM</p>
         </div>
 
         {/* Lado del Formulario */}
         <form className="login__form" onSubmit={enviar}>
           <div className="login__form-header">
-            <span className="login__kicker">Ingreso al Sistema</span>
             <h1 className="login__titulo">Iniciar sesión</h1>
-            <p className="login__desc">Ingresa con tus credenciales institucionales registradas</p>
+            <p className="login__desc">Usa el correo y la contraseña que te asignó la coordinación.</p>
           </div>
 
           <label className="campo">
-            <span className="campo__etiqueta">Correo electrónico institucional</span>
+            <span className="campo__etiqueta">Correo institucional</span>
             <div className="campo__con-icono">
-              <Mail className="campo__icono-lateral" size={18} />
+              <Mail className="campo__icono-lateral" size={18} aria-hidden="true" />
               <input
                 type="email"
-                placeholder="ejemplo@posgrados.edu.mx"
+                placeholder="nombre@morelia.tecnm.mx"
                 value={correo}
                 onChange={(e) => setCorreo(e.target.value)}
                 autoComplete="username"
@@ -108,10 +92,9 @@ export default function Login() {
           <label className="campo">
             <span className="campo__etiqueta">Contraseña</span>
             <div className="campo__con-icono campo__password">
-              <Lock className="campo__icono-lateral" size={18} />
+              <Lock className="campo__icono-lateral" size={18} aria-hidden="true" />
               <input
                 type={verPassword ? "text" : "password"}
-                placeholder="••••••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="current-password"
@@ -122,7 +105,7 @@ export default function Login() {
                 className="campo__ver"
                 onClick={() => setVerPassword(!verPassword)}
                 aria-label={verPassword ? "Ocultar contraseña" : "Ver contraseña"}
-                tabIndex={-1}
+                aria-pressed={verPassword}
               >
                 {verPassword ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
@@ -136,12 +119,12 @@ export default function Login() {
           )}
 
           <button type="submit" className="boton-principal boton-login" disabled={enviando}>
-            <span>{enviando ? "Verificando credenciales…" : "Acceder al portal"}</span>
-            {!enviando && <ArrowRight size={18} />}
+            <span>{enviando ? "Verificando…" : "Entrar"}</span>
+            {!enviando && <ArrowRight size={18} aria-hidden="true" />}
           </button>
 
           <p className="login__ayuda">
-            ¿Problemas de acceso? Contacta a la coordinación escolar o soporte técnico de posgrados.
+            ¿No puedes entrar? Escribe a la coordinación de tu posgrado para restablecer tu acceso.
           </p>
         </form>
       </div>

@@ -1,15 +1,5 @@
 import { useState } from "react";
-import {
-  Settings,
-  Calendar,
-  Save,
-  ShieldCheck,
-  Bell,
-  Mail,
-  Lock,
-  Database,
-  CheckCircle2,
-} from "lucide-react";
+import { Calendar, Save, Bell } from "lucide-react";
 import { toast } from "sonner";
 
 export default function Configuracion() {
@@ -21,60 +11,53 @@ export default function Configuracion() {
 
   const guardar = (e) => {
     e.preventDefault();
-    toast.success("Parámetros del sistema y ciclo escolar actualizados exitosamente.");
+    toast.success("Configuración del ciclo escolar actualizada.");
   };
 
   return (
-    <section className="modulo-seccion seccion-fade">
-      {/* Cabecera del Módulo */}
+    <section className="modulo-seccion">
       <div className="modulo-header">
         <div className="modulo-header__info">
-          <div className="modulo-breadcrumbs">
-            <span>Coordinación General</span>
-            <span className="modulo-breadcrumbs__sep">/</span>
-            <span className="modulo-breadcrumbs__actual">Configuración Institucional</span>
-          </div>
-          <h1 className="pagina__titulo">Parámetros del Sistema de Posgrados</h1>
+          <h1 className="pagina__titulo">Configuración del Ciclo Escolar</h1>
           <p className="pagina__desc">
-            Administración del ciclo activo, fechas límite de dictamen y reglas de admisión.
+            Periodo activo, fechas límite de captura de calificaciones y parámetros de admisión.
           </p>
         </div>
 
         <div className="modulo-acciones">
           <button type="submit" form="form-config" className="boton-principal">
-            <Save size={16} />
-            <span>Guardar Parámetros</span>
+            <Save size={16} aria-hidden="true" />
+            <span>Guardar cambios</span>
           </button>
         </div>
       </div>
 
       <form id="form-config" onSubmit={guardar} className="configuracion-grid">
-        {/* Panel 1: Ciclo y Calendario */}
         <div className="configuracion-card">
           <div className="configuracion-card__header">
-            <Calendar size={20} className="configuracion-card__icono" />
+            <Calendar size={18} className="configuracion-card__icono" aria-hidden="true" />
             <div>
-              <h2 className="configuracion-card__titulo">Ciclo Académico y Convocatoria</h2>
-              <p className="configuracion-card__desc">Define las fechas de operación del sistema escolar.</p>
+              <h2 className="configuracion-card__titulo">Periodo y Admisión</h2>
+              <p className="configuracion-card__desc">Parámetros generales del ciclo vigente.</p>
             </div>
           </div>
 
           <div className="configuracion-card__cuerpo">
             <label className="campo">
-              <span>Ciclo Escolar Activo</span>
+              <span className="campo__etiqueta">Ciclo escolar activo</span>
               <select
                 value={ciclo}
                 onChange={(e) => setCiclo(e.target.value)}
                 className="select-estilizado"
               >
-                <option value="2026-A">Ciclo 2026-A (Semestre Enero - Junio)</option>
-                <option value="2026-B">Ciclo 2026-B (Semestre Agosto - Diciembre)</option>
+                <option value="2026-A">Ciclo 2026-A (Enero – Junio)</option>
+                <option value="2026-B">Ciclo 2026-B (Agosto – Diciembre)</option>
                 <option value="2027-A">Ciclo 2027-A (Próxima apertura)</option>
               </select>
             </label>
 
             <label className="campo">
-              <span>Fecha Límite para Captura de Actas y Dictámenes</span>
+              <span className="campo__etiqueta">Fecha límite para captura de actas</span>
               <input
                 type="date"
                 value={fechaLimite}
@@ -83,7 +66,7 @@ export default function Configuracion() {
             </label>
 
             <label className="campo">
-              <span>Calificación Mínima Aprobatoria de Admisión</span>
+              <span className="campo__etiqueta">Calificación mínima aprobatoria</span>
               <input
                 type="number"
                 min="70"
@@ -96,21 +79,20 @@ export default function Configuracion() {
           </div>
         </div>
 
-        {/* Panel 2: Notificaciones y Accesos */}
         <div className="configuracion-card">
           <div className="configuracion-card__header">
-            <Bell size={20} className="configuracion-card__icono" />
+            <Bell size={18} className="configuracion-card__icono" aria-hidden="true" />
             <div>
-              <h2 className="configuracion-card__titulo">Alertas y Registro de Aspirantes</h2>
-              <p className="configuracion-card__desc">Canales de comunicación y control de acceso.</p>
+              <h2 className="configuracion-card__titulo">Registro y Avisos</h2>
+              <p className="configuracion-card__desc">Recepción de solicitudes y alertas.</p>
             </div>
           </div>
 
           <div className="configuracion-card__cuerpo">
             <div className="toggle-row">
               <div>
-                <strong>Apertura de Registro a Nuevos Aspirantes</strong>
-                <p>Permitir que nuevos candidatos envíen documentación al portal.</p>
+                <strong>Recepción de solicitudes de aspirantes</strong>
+                <p>Habilita el envío de documentos para el proceso de admisión.</p>
               </div>
               <input
                 type="checkbox"
@@ -122,8 +104,8 @@ export default function Configuracion() {
 
             <div className="toggle-row">
               <div>
-                <strong>Notificaciones Automáticas por Correo</strong>
-                <p>Enviar aviso al estudiante cuando un profesor asiente su calificación.</p>
+                <strong>Avisos por correo electrónico</strong>
+                <p>Notifica al alumno cuando se registre una calificación o dictamen.</p>
               </div>
               <input
                 type="checkbox"
@@ -131,14 +113,6 @@ export default function Configuracion() {
                 onChange={(e) => setNotifCorreo(e.target.checked)}
                 className="toggle-checkbox"
               />
-            </div>
-
-            <div className="seguridad-aviso-box">
-              <ShieldCheck size={20} />
-              <div>
-                <strong>Auditoría Criptográfica Activa</strong>
-                <p>Todas las transacciones y firmas de actas quedan firmadas en la base de datos de Supabase.</p>
-              </div>
             </div>
           </div>
         </div>

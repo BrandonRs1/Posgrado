@@ -1,103 +1,105 @@
 /* =====================================================================
-   CREDENCIAL DIGITAL INSTITUCIONAL - ESTILO EJECUTIVO PROFESIONAL
-   Paleta: Blanco dominante con acentos en Azul Rey
+   CREDENCIAL ESCOLAR DIGITAL — ESTILO INSTITUCIONAL AZUL Y BLANCO
    ===================================================================== */
 
 .credencial {
-  position: relative;
-  width: min(440px, 100%);
-  border-radius: var(--radio-xl);
+  width: 100%;
+  border-radius: var(--radio-md);
   overflow: hidden;
   background: var(--fondo-tarjeta);
   border: 1px solid var(--borde);
-  box-shadow: var(--sombra-md);
-  transition: transform var(--transicion-media), box-shadow var(--transicion-media);
+  box-shadow: var(--sombra-xs);
 }
 
-.credencial:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--sombra-lg);
-}
-
-/* Banda superior institucional en Azul Rey */
+/* Franja institucional en Azul Marino */
 .credencial__banda {
-  padding: 18px 22px;
-  background: linear-gradient(135deg, var(--azul-institucional) 0%, var(--azul-rey) 65%, var(--azul-electrico) 100%);
+  padding: 16px 20px;
+  background: var(--azul-institucional);
   color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  border-bottom: 3px solid var(--azul-rey);
+}
+
+.credencial__institucion-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .credencial__institucion {
-  font-size: 0.85rem;
+  font-size: 0.88rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
+  color: #ffffff;
+}
+
+.credencial__subinstitucion {
+  font-size: 0.72rem;
+  color: #dbeafe;
+  font-weight: 400;
 }
 
 .credencial__tipo-credencial {
-  font-size: 0.72rem;
-  font-weight: 600;
+  font-family: var(--fuente-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
   letter-spacing: 0.04em;
-  padding: 3px 10px;
-  border-radius: var(--radio-pildora);
-  background: rgba(255, 255, 255, 0.18);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(4px);
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: var(--radio-sm);
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: #ffffff;
+  white-space: nowrap;
 }
 
-/* Cuerpo de la tarjeta */
+/* Cuerpo de la credencial */
 .credencial__cuerpo {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 24px;
+  align-items: center;
+  text-align: center;
+  gap: 18px;
+  padding: 24px 20px;
 }
 
-@media (min-width: 440px) {
-  .credencial__cuerpo {
-    flex-direction: row;
-    align-items: flex-start;
-  }
-}
-
-/* Foto y avatar del usuario */
+/* Fotografía del titular */
 .credencial__foto {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  flex-shrink: 0;
+}
+
+.credencial__avatar-container {
+  position: relative;
+  display: inline-block;
 }
 
 .credencial__avatar {
   display: grid;
   place-items: center;
-  width: 96px;
-  height: 96px;
+  width: 104px;
+  height: 104px;
   padding: 0;
   overflow: hidden;
-  border-radius: 50%;
-  border: 3px solid var(--blanco);
+  border-radius: var(--radio-md);
+  border: 2px solid var(--borde-azul);
   font-family: var(--fuente);
-  font-size: 1.85rem;
+  font-size: 1.75rem;
   font-weight: 700;
   color: #ffffff;
-  background: linear-gradient(135deg, var(--azul-institucional) 0%, var(--azul-rey) 100%);
-  box-shadow: 0 0 0 2px var(--azul-cielo), var(--sombra-sm);
+  background: var(--azul-institucional);
   cursor: pointer;
-  transition: transform var(--transicion-rapida), box-shadow var(--transicion-rapida);
+  transition: border-color var(--transicion-rapida);
 }
 
 .credencial__avatar:hover:not(:disabled) {
-  transform: scale(1.04);
-  box-shadow: 0 0 0 3px var(--azul-electrico), var(--sombra-azul-sm);
-}
-
-.credencial__avatar:active:not(:disabled) {
-  transform: scale(0.97);
+  border-color: var(--azul-rey);
 }
 
 .credencial__avatar img {
@@ -111,12 +113,32 @@
   cursor: default;
 }
 
-/* Botón de cambio de fotografía */
+.credencial__foto-badge {
+  position: absolute;
+  bottom: -6px;
+  right: -6px;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radio-sm);
+  background: var(--azul-rey);
+  color: #ffffff;
+  border: 2px solid var(--fondo-tarjeta);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background var(--transicion-rapida);
+}
+
+.credencial__foto-badge:hover:not(:disabled) {
+  background: var(--azul-institucional);
+}
+
 .credencial__cambiar {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 5px 12px;
+  justify-content: center;
+  min-height: 34px;
+  padding: 6px 12px;
   border: 1px solid var(--borde-azul);
   border-radius: var(--radio-sm);
   font-family: var(--fuente);
@@ -125,182 +147,112 @@
   color: var(--azul-rey);
   background: var(--azul-subtle);
   cursor: pointer;
-  transition: all var(--transicion-rapida);
+  transition: background var(--transicion-rapida), color var(--transicion-rapida);
 }
 
 .credencial__cambiar:hover:not(:disabled) {
   color: #ffffff;
   background: var(--azul-rey);
   border-color: var(--azul-rey);
-  transform: translateY(-1px);
-  box-shadow: var(--sombra-azul-sm);
 }
 
-.credencial__cambiar:active:not(:disabled) {
-  transform: translateY(0);
-}
-
-.credencial__avatar:focus-visible,
-.credencial__cambiar:focus-visible {
-  outline: 2px solid var(--azul-rey);
-  outline-offset: 2px;
-}
-
-/* Datos de la persona */
+/* Datos del alumno o personal */
 .credencial__datos {
-  min-width: 0;
-  flex: 1;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-}
-
-.credencial__nombre {
-  font-size: 1.25rem;
-  font-weight: 700;
-  line-height: 1.3;
-  color: var(--texto-titulos);
-  overflow-wrap: anywhere;
-}
-
-/* Etiqueta ejecutiva de rol / estatus */
-.credencial__rol {
-  align-self: flex-start;
-  padding: 4px 12px;
-  border-radius: var(--radio-pildora);
-  font-size: 0.76rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--azul-rey);
-  background: var(--azul-subtle);
-  border: 1px solid var(--borde-azul);
-  display: inline-block;
-}
-
-/* Lista de datos escolares */
-.credencial__filas {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.credencial__fila {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 9px 12px;
-  background: var(--azul-glaciar);
-  border: 1px solid var(--borde-suave);
-  border-radius: var(--radio-md);
-  transition: border-color var(--transicion-rapida);
-}
-
-[data-tema="oscuro"] .credencial__fila {
-  background: var(--fondo-elevado);
-  border-color: var(--borde);
-}
-
-.credencial__fila:hover {
-  border-color: var(--borde-azul);
-}
-
-.credencial__fila dt {
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--texto-suave);
-}
-
-.credencial__fila dd {
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: var(--texto-titulos);
-  overflow-wrap: anywhere;
-}
-
-.credencial__error {
-  margin: 0 24px 20px;
-}
-
-
-/* ========== Mejoras de Autenticación y Credencial Ejecutiva ========== */
-.credencial__institucion-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.credencial__avatar-container {
-  position: relative;
-  display: inline-block;
-}
-
-.credencial__foto-badge {
-  position: absolute;
-  bottom: 2px;
-  right: 2px;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--azul-rey);
-  color: #ffffff;
-  border: 2px solid var(--fondo-tarjeta);
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  box-shadow: var(--sombra-sm);
-  transition: transform var(--transicion-rapida), background var(--transicion-rapida);
-}
-
-.credencial__foto-badge:hover {
-  transform: scale(1.12);
-  background: var(--azul-electrico);
+  gap: 14px;
 }
 
 .credencial__identidad-header {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 6px;
-  margin-bottom: 12px;
+}
+
+.credencial__nombre {
+  font-family: var(--fuente-serif);
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--texto-titulos);
+  overflow-wrap: anywhere;
 }
 
 .credencial__rol-chip {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  align-self: flex-start;
   padding: 3px 10px;
-  border-radius: var(--radio-pildora);
+  border-radius: var(--radio-sm);
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   background: var(--azul-subtle);
-  color: var(--azul-rey);
+  color: var(--azul-institucional);
   border: 1px solid var(--borde-azul);
 }
 
 [data-tema="oscuro"] .credencial__rol-chip {
-  background: rgba(37, 99, 235, 0.15);
+  background: var(--azul-niebla);
   color: var(--azul-cielo);
-  border-color: rgba(96, 165, 250, 0.3);
+  border-color: var(--borde-azul);
 }
 
+/* Filas de datos escolares */
+.credencial__filas {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+}
+
+.credencial__fila {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  background: var(--fondo-pagina);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-sm);
+}
+
+.credencial__fila dt {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+.credencial__fila dd {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--texto-titulos);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+/* Pie de autenticación */
 .credencial__pie {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 24px;
-  border-top: 1px dashed var(--borde);
-  background: var(--fondo-muted);
+  padding: 14px 20px;
+  border-top: 1px solid var(--borde);
+  background: var(--azul-subtle);
+}
+
+[data-tema="oscuro"] .credencial__pie {
+  background: var(--fondo-elevado);
 }
 
 .credencial__qr-block {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .credencial__qr-icon {
@@ -317,106 +269,34 @@
 }
 
 .credencial__folio {
-  font-family: monospace;
+  font-family: var(--fuente-mono);
   font-size: 0.78rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--texto-titulos);
-  letter-spacing: 0.05em;
 }
 
 .credencial__vigencia {
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   color: var(--texto-suave);
 }
 
 .credencial__holograma {
-  padding: 3px 8px;
-  border-radius: 4px;
-  font-size: 0.64rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 50%, #ddd6fe 100%);
-  color: #3730a3;
-  border: 1px solid rgba(99, 102, 241, 0.3);
-  box-shadow: inset 0 0 4px rgba(255, 255, 255, 0.8);
-}
-
-[data-tema="oscuro"] .credencial__holograma {
-  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #2e1065 100%);
-  color: #c7d2fe;
-  border-color: rgba(165, 180, 252, 0.3);
-}
-
-
-/* =====================================================================
-   DETALLES DE ALTA GAMA: CREDENCIAL UNIVERSITARIA DIGITAL PREMIUM
-   ===================================================================== */
-.credencial {
+  padding: 4px 8px;
+  border-radius: var(--radio-sm);
+  font-family: var(--fuente-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   background: var(--fondo-tarjeta);
-  border: 1px solid var(--borde);
-  border-radius: var(--radio-xl);
-  box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.08), 0 4px 10px -2px rgba(15, 23, 42, 0.04);
-  position: relative;
-  overflow: hidden;
-}
-
-[data-tema="oscuro"] .credencial {
-  background: #0d1527;
-  border-color: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 12px 36px -5px rgba(0, 0, 0, 0.6);
-}
-
-/* Sello de agua sutil en fondo de credencial */
-.credencial::after {
-  content: "";
-  position: absolute;
-  right: -30px;
-  bottom: 40px;
-  width: 220px;
-  height: 220px;
-  background-image: radial-gradient(circle, rgba(37, 99, 235, 0.04) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Banda de seguridad holográfica */
-.credencial__holograma {
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(
-    135deg,
-    rgba(224, 231, 255, 0.9) 0%,
-    rgba(199, 210, 254, 0.9) 25%,
-    rgba(251, 207, 232, 0.8) 50%,
-    rgba(186, 230, 253, 0.9) 75%,
-    rgba(224, 231, 255, 0.9) 100%
-  );
-  background-size: 200% 200%;
-  animation: brilloHolograma 6s ease infinite;
-  border: 1px solid rgba(165, 180, 252, 0.5);
-  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.8), 0 2px 6px rgba(0, 0, 0, 0.06);
-}
-
-@keyframes brilloHolograma {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  color: var(--azul-institucional);
+  border: 1px solid var(--borde-azul);
 }
 
 [data-tema="oscuro"] .credencial__holograma {
-  background: linear-gradient(
-    135deg,
-    rgba(30, 27, 75, 0.8) 0%,
-    rgba(49, 46, 129, 0.8) 25%,
-    rgba(88, 28, 135, 0.7) 50%,
-    rgba(30, 58, 138, 0.8) 75%,
-    rgba(30, 27, 75, 0.8) 100%
-  );
-  background-size: 200% 200%;
-  border-color: rgba(129, 140, 248, 0.4);
+  color: var(--azul-cielo);
 }
 
-.credencial__fila dd {
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.01em;
+.credencial__error {
+  margin: 0 20px 16px;
 }

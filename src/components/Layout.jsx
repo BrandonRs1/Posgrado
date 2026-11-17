@@ -4,20 +4,17 @@ import Sidebar from "./Sidebar.jsx";
 import BotonTema from "./BotonTema.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import { seccionesPermitidas, secciones } from "../config/secciones.js";
-import { GraduationCap, Calendar } from "lucide-react";
+import { etiquetaRol } from "../lib/permisos.js";
+import { GraduationCap, LogOut, Menu, X } from "lucide-react";
 import BuzonPage from "../pages/BuzonPage.jsx";
 import AnunciosPage from "../pages/AnunciosPage.jsx";
 
-const esEscritorio = () => window.innerWidth >= 900;
-
 export default function Layout() {
-  const { perfil } = useAuth();
+  const { perfil, cerrarSesion } = useAuth();
   const location = useLocation();
-  const [abierto, setAbierto] = useState(esEscritorio);
+  const [menuMovil, setMenuMovil] = useState(false);
 
-  const alNavegar = () => {
-    if (!esEscritorio()) setAbierto(false);
-  };
+  const cerrarMenuMovil = () => setMenuMovil(false);
 
   const seccionActual =
     secciones.find((s) => s.ruta === location.pathname) ||
@@ -25,62 +22,84 @@ export default function Layout() {
       ? { nombre: "Buzón de Mensajes" }
       : location.pathname === "/anuncios"
       ? { nombre: "Avisos y Convocatorias" }
-      : { nombre: "Portal" });
+      : { nombre: "Inicio" });
 
-  const iniciales = (
-    (perfil?.nombre?.[0] ?? "") + (perfil?.apellido_paterno?.[0] ?? "")
-  ).toUpperCase() || "US";
+  const iniciales =
+    ((perfil?.nombre?.[0] ?? "") + (perfil?.apellido_paterno?.[0] ?? "")).toUpperCase() || "US";
+
+  const nombreCompleto = [perfil?.nombre, perfil?.apellido_paterno].filter(Boolean).join(" ");
 
   return (
-    <div className={`layout ${abierto ? "layout--abierto" : ""}`}>
-      {/* Barra Superior Flotante con Glassmorphism */}
-      <header className="topbar">
-        <div className="topbar__izq">
-          <button
-            className={`hamburguesa ${abierto ? "hamburguesa--activa" : ""}`}
-            onClick={() => setAbierto(!abierto)}
-            aria-label={abierto ? "Ocultar menú" : "Mostrar menú"}
-            aria-expanded={abierto}
-          >
-            <span />
-            <span />
-            <span />
-          </button>
-
-          <div className="topbar__branding">
-            <div className="topbar__logo-badge">
-              <GraduationCap size={19} strokeWidth={2.2} />
+    <div className="app-shell">
+      {/* Franja Institucional Superior (Azul Marino) */}
+      <header className="inst-header">
+        <div className="inst-header__top">
+          <div className="inst-header__contenedor">
+            <div className="inst-header__marca">
+              <div className="inst-header__escudo" aria-hidden="true">
+                <GraduationCap size={20} strokeWidth={2} />
+              </div>
+              <div className="inst-header__textos">
+                <span className="inst-header__institucion">
+                  Instituto Tecnológico de Morelia
+                </span>
+                <span className="inst-header__sistema">
+                  Sistema de Gestión de Posgrados · Ciclo 2026–2027
+                </span>
+              </div>
             </div>
-            <div className="topbar__titulos">
-              <span className="topbar__titulo">Evaluación de Posgrados</span>
-              <span className="topbar__subtitulo">
-                Plataforma Institucional • {seccionActual.nombre}
-              </span>
+
+            <div className="inst-header__controles">
+              <div className="inst-header__usuario">
+                <div className="inst-header__avatar" aria-hidden="true">
+                  {iniciales}
+                </div>
+                <div className="inst-header__usuario-info">
+                  <span className="inst-header__usuario-nombre">{nombreCompleto}</span>
+                  <span className="inst-header__usuario-rol">{etiquetaRol(perfil)}</span>
+                </div>
+              </div>
+
+              <BotonTema />
+
+              <button
+                type="button"
+                className="inst-header__salir"
+                onClick={cerrarSesion}
+                title="Cerrar sesión"
+              >
+                <LogOut size={16} aria-hidden="true" />
+                <span>Salir</span>
+              </button>
+
+              <button
+                type="button"
+                className="inst-header__menu-btn"
+                onClick={() => setMenuMovil(!menuMovil)}
+                aria-label={menuMovil ? "Cerrar menú" : "Abrir menú"}
+                aria-expanded={menuMovil}
+              >
+                {menuMovil ? <X size={20} /> : <Menu size={20} />}
+              </button>
             </div>
           </div>
         </div>
 
-        <div className="topbar__acciones">
-          {/* Indicador de Ciclo Activo */}
-          <div className="topbar__ciclo-badge">
-            <Calendar size={13} />
-            <span>Ciclo 2026-2027</span>
-          </div>
-
-          <BotonTema />
-
-          {/* Chip de Usuario en Topbar */}
-          <div className="topbar__usuario-chip" title={`${perfil?.nombre} (${perfil?.tipo || "Usuario"})`}>
-            <div className="topbar__avatar-mini">{iniciales}</div>
-            <span className="topbar__usuario-nombre">{perfil?.nombre}</span>
+        {/* Barra de Navegación Horizontal (Blanco y Azul) */}
+        <div className="inst-header__nav-bar">
+          <div className="inst-header__contenedor inst-header__nav-inner">
+            <Sidebar abierto={menuMovil} onNavegar={cerrarMenuMovil} />
+            <span className="inst-header__ubicacion" aria-live="polite">
+              Sección: <strong>{seccionActual.nombre}</strong>
+            </span>
           </div>
         </div>
       </header>
 
-      <Sidebar abierto={abierto} onNavegar={alNavegar} />
-      {abierto && <div className="velo" onClick={() => setAbierto(false)} />}
+      {menuMovil && <div className="velo" onClick={cerrarMenuMovil} />}
 
-      <main className="pagina">
+      {/* Contenedor Principal Centrado */}
+      <main className="contenedor-principal">
         <Routes>
           {seccionesPermitidas(perfil).map(({ ruta, elemento: Pagina }) => (
             <Route key={ruta} path={ruta} element={<Pagina />} />
@@ -90,6 +109,13 @@ export default function Layout() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
+
+      <footer className="inst-footer">
+        <div className="inst-header__contenedor inst-footer__inner">
+          <span>División de Estudios de Posgrado e Investigación (DEPI)</span>
+          <span>Portal Escolar · ITM</span>
+        </div>
+      </footer>
     </div>
   );
 }
